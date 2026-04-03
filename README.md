@@ -1,11 +1,11 @@
 # Peeler
 
-[<img src="Sources/Peeler/Resources/Brand/app-icon.png" width="64" alt="Peeler">](https://peeler.anants.studio)
-
-[![Version](https://img.shields.io/badge/version-1.0.0-blue?style=flat-square)](https://github.com/GithubAnant/peeler/releases)
-[![Release](https://img.shields.io/badge/release-The%20Birth-purple?style=flat-square)](https://peeler.anants.studio)
-[![Author](https://img.shields.io/badge/author-Anant%20Singhal-green?style=flat-square)](https://anants.studio)
-[![Repo](https://img.shields.io/badge/repo-github.com%2FGithubAnant%2Fpeeler-gray?style=flat-square)](https://github.com/GithubAnant/peeler)
+<div align="center">
+  [<img src="Sources/Peeler/Resources/Brand/app-icon.png" width="64" alt="Peeler">](https://peeler.anants.studio)
+  
+  [![Version](https://img.shields.io/badge/version-1.0.0-blue?style=flat-square)](https://github.com/GithubAnant/peeler/releases)
+  [![Release](https://img.shields.io/badge/Release-The%20Birth-purple?style=flat-square)](https://peeler.anants.studio)
+</div>
 
 A lightweight macOS menu bar app for picking colors and extracting palettes from your screen.
 
