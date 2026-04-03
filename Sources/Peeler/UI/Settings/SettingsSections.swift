@@ -32,23 +32,40 @@ struct GeneralSettingsSection: View {
 }
 
 struct HotkeySettingsSection: View {
-    let eyedropperHotkey: String
-    let paletteHotkey: String
+    let eyedropperHotkey: HotKeyCombination
+    let paletteHotkey: HotKeyCombination
+    let onEyedropperChange: (HotKeyCombination) -> Void
+    let onPaletteChange: (HotKeyCombination) -> Void
+    let conflictMessage: String?
 
     var body: some View {
         GroupCard("Hotkeys") {
             LabeledContent("Eyedropper hotkey") {
-                Text(eyedropperHotkey)
-                    .font(.system(.body, design: .monospaced))
+                HotKeyRecorderField(
+                    title: "Click and press a shortcut",
+                    combination: eyedropperHotkey,
+                    onCommit: onEyedropperChange
+                )
+                .frame(width: 220)
             }
             LabeledContent("Screenshot palette hotkey") {
-                Text(paletteHotkey)
-                    .font(.system(.body, design: .monospaced))
+                HotKeyRecorderField(
+                    title: "Click and press a shortcut",
+                    combination: paletteHotkey,
+                    onCommit: onPaletteChange
+                )
+                .frame(width: 220)
             }
 
-            Text("Hotkey recording UI is left intentionally simple in this first pass. The defaults are wired and conflicts surface when registration fails.")
+            Text("Click a field, press a modifier shortcut, and it takes effect immediately.")
                 .font(.caption)
                 .foregroundStyle(.secondary)
+
+            if let conflictMessage {
+                Text(conflictMessage)
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+            }
         }
     }
 }

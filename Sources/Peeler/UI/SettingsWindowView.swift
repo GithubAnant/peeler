@@ -30,8 +30,11 @@ struct SettingsWindowView: View {
                         )
                     case .hotkeys:
                         HotkeySettingsSection(
-                            eyedropperHotkey: appState.settings.eyedropperHotkey.displayString,
-                            paletteHotkey: appState.settings.paletteHotkey.displayString
+                            eyedropperHotkey: appState.settings.eyedropperHotkey,
+                            paletteHotkey: appState.settings.paletteHotkey,
+                            onEyedropperChange: { appState.setHotKey($0, for: .eyedropper) },
+                            onPaletteChange: { appState.setHotKey($0, for: .palette) },
+                            conflictMessage: appState.hotKeyConflictMessage
                         )
                     case .appearance:
                         AppearanceSettingsSection(

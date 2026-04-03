@@ -17,6 +17,26 @@ extension AppState {
         permissionAlertVisible = true
     }
 
+    func setHotKey(_ combination: HotKeyCombination, for kind: HotKeyKind) {
+        switch kind {
+        case .eyedropper:
+            updateSettings { $0.eyedropperHotkey = combination }
+        case .palette:
+            updateSettings { $0.paletteHotkey = combination }
+        }
+
+        onHotKeySettingsChanged?()
+    }
+
+    func hotKey(for kind: HotKeyKind) -> HotKeyCombination {
+        switch kind {
+        case .eyedropper:
+            settings.eyedropperHotkey
+        case .palette:
+            settings.paletteHotkey
+        }
+    }
+
     func applyTheme(_ theme: AppTheme) {
         updateSettings { $0.theme = theme }
 

@@ -44,6 +44,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         appState.openPrivacySettings = { [weak self] in
             self?.permissionService.openPrivacySettings()
         }
+        appState.onHotKeySettingsChanged = { [weak self] in
+            self?.registerHotKeys()
+        }
         appState.presentHUD = { [weak self] payload in
             guard let self else { return }
             self.hudController?.show(
@@ -59,6 +62,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ notification: Notification) {}
 
     private func registerHotKeys() {
+        if appState.settings.eyedropperHotkey == appState.settings.paletteHotkey {
+            appState.hotKeyConflictMessage = "Eyedropper and palette shortcuts cannot use the same key combination."
+            return
+        }
+
         let eyedropperRegistered = hotKeyController.register(
             kind: .eyedropper,
             combination: appState.settings.eyedropperHotkey

@@ -23,7 +23,7 @@ final class WindowRouter {
         showWindow(
             key: "history",
             title: "History",
-            size: NSSize(width: 520, height: 580),
+            size: NSSize(width: 880, height: 640),
             rootView: HistoryWindowView().environmentObject(appState)
         )
     }
@@ -32,7 +32,7 @@ final class WindowRouter {
         showWindow(
             key: "palettes",
             title: "Saved Palettes",
-            size: NSSize(width: 560, height: 560),
+            size: NSSize(width: 920, height: 680),
             rootView: SavedPalettesView().environmentObject(appState)
         )
     }
@@ -41,6 +41,7 @@ final class WindowRouter {
         NSApp.activate(ignoringOtherApps: true)
 
         if let controller = controllers[key] {
+            applyWindowMetrics(controller.window, size: size)
             controller.showWindow(nil)
             controller.window?.orderFrontRegardless()
             controller.window?.makeKeyAndOrderFront(nil)
@@ -51,6 +52,7 @@ final class WindowRouter {
 
         let controller = NSWindowController(window: makeWindow(title: title, size: size, rootView: rootView))
         controllers[key] = controller
+        applyWindowMetrics(controller.window, size: size)
         controller.showWindow(nil)
         controller.window?.center()
         controller.window?.orderFrontRegardless()
@@ -63,7 +65,7 @@ final class WindowRouter {
         let hosting = NSHostingController(rootView: rootView)
         let window = NSWindow(
             contentRect: NSRect(origin: .zero, size: size),
-            styleMask: [.titled, .closable, .miniaturizable, .fullSizeContentView],
+            styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
             backing: .buffered,
             defer: false
         )
@@ -78,5 +80,15 @@ final class WindowRouter {
         window.isMovableByWindowBackground = true
         window.collectionBehavior = [.moveToActiveSpace, .fullScreenAuxiliary]
         return window
+    }
+
+    private func applyWindowMetrics(_ window: NSWindow?, size: NSSize) {
+        guard let window else { return }
+        window.setContentSize(size)
+        window.minSize = size
+
+        var frame = window.frame
+        frame.size = size
+        window.setFrame(frame, display: true)
     }
 }

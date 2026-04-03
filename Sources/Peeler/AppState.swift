@@ -18,6 +18,7 @@ final class AppState: ObservableObject {
     var openSavedPalettesWindow: (() -> Void)?
     var openPrivacySettings: (() -> Void)?
     var presentHUD: ((HUDPayload) -> Void)?
+    var onHotKeySettingsChanged: (() -> Void)?
 
     let clipboard = ClipboardService()
     let persistence = PersistenceController()

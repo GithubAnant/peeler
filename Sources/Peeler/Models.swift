@@ -103,6 +103,11 @@ struct HotKeyCombination: Codable, Hashable {
     var keyCode: UInt32
     var carbonModifiers: UInt32
 
+    init(keyCode: UInt32, carbonModifiers: UInt32) {
+        self.keyCode = keyCode
+        self.carbonModifiers = carbonModifiers
+    }
+
     static let eyedropperDefault = HotKeyCombination(
         keyCode: UInt32(kVK_ANSI_C),
         carbonModifiers: UInt32(cmdKey | shiftKey)
@@ -121,6 +126,26 @@ struct HotKeyCombination: Codable, Hashable {
         if carbonModifiers & UInt32(cmdKey) != 0 { parts.append("⌘") }
         parts.append(keyCode.displayKey)
         return parts.joined()
+    }
+
+    var isValid: Bool {
+        hasAnyModifier && keyCode.isRecordableKey
+    }
+
+    var hasAnyModifier: Bool {
+        carbonModifiers & UInt32(cmdKey | optionKey | controlKey | shiftKey) != 0
+    }
+
+    init?(event: NSEvent) {
+        let keyCode = UInt32(event.keyCode)
+        let modifiers = event.modifierFlags.carbonHotKeyModifiers
+        let combination = HotKeyCombination(keyCode: keyCode, carbonModifiers: modifiers)
+
+        guard combination.isValid else {
+            return nil
+        }
+
+        self = combination
     }
 }
 
@@ -217,8 +242,59 @@ extension UInt32 {
         case UInt32(kVK_ANSI_X): "X"
         case UInt32(kVK_ANSI_Y): "Y"
         case UInt32(kVK_ANSI_Z): "Z"
+        case UInt32(kVK_ANSI_0): "0"
+        case UInt32(kVK_ANSI_1): "1"
+        case UInt32(kVK_ANSI_2): "2"
+        case UInt32(kVK_ANSI_3): "3"
+        case UInt32(kVK_ANSI_4): "4"
+        case UInt32(kVK_ANSI_5): "5"
+        case UInt32(kVK_ANSI_6): "6"
+        case UInt32(kVK_ANSI_7): "7"
+        case UInt32(kVK_ANSI_8): "8"
+        case UInt32(kVK_ANSI_9): "9"
+        case UInt32(kVK_Space): "Space"
+        case UInt32(kVK_ANSI_Minus): "-"
+        case UInt32(kVK_ANSI_Equal): "="
+        case UInt32(kVK_ANSI_LeftBracket): "["
+        case UInt32(kVK_ANSI_RightBracket): "]"
+        case UInt32(kVK_ANSI_Semicolon): ";"
+        case UInt32(kVK_ANSI_Quote): "'"
+        case UInt32(kVK_ANSI_Comma): ","
+        case UInt32(kVK_ANSI_Period): "."
+        case UInt32(kVK_ANSI_Slash): "/"
+        case UInt32(kVK_ANSI_Backslash): "\\"
+        case UInt32(kVK_Escape): "Esc"
         case UInt32(kVK_Return): "↩"
         default: String(UnicodeScalar(Int(self)) ?? " ")
         }
+    }
+
+    var isRecordableKey: Bool {
+        switch self {
+        case UInt32(kVK_Shift),
+            UInt32(kVK_RightShift),
+            UInt32(kVK_Command),
+            UInt32(kVK_RightCommand),
+            UInt32(kVK_Option),
+            UInt32(kVK_RightOption),
+            UInt32(kVK_Control),
+            UInt32(kVK_RightControl),
+            UInt32(kVK_CapsLock),
+            UInt32(kVK_Function):
+            false
+        default:
+            true
+        }
+    }
+}
+
+extension NSEvent.ModifierFlags {
+    var carbonHotKeyModifiers: UInt32 {
+        var modifiers: UInt32 = 0
+        if contains(.command) { modifiers |= UInt32(cmdKey) }
+        if contains(.option) { modifiers |= UInt32(optionKey) }
+        if contains(.control) { modifiers |= UInt32(controlKey) }
+        if contains(.shift) { modifiers |= UInt32(shiftKey) }
+        return modifiers
     }
 }
