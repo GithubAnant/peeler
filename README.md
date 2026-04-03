@@ -18,7 +18,7 @@ A lightweight macOS menu bar app for picking colors and extracting palettes from
 
 ## Install
 
-Download the latest DMG from the [Releases](https://github.com/anantsinghal/peeler/releases) page, open it, and drag **Peeler.app** to your Applications folder.
+Download the latest DMG from the [Releases](https://github.com/GithubAnant/peeler/releases) page, open it, and drag **Peeler.app** to your Applications folder.
 
 Since Peeler is not notarized, macOS may block it on first launch. To fix this, run:
 
