@@ -5,7 +5,6 @@
 </p>
 <p align="center">
   <a href="https://github.com/GithubAnant/peeler/releases"><img src="https://img.shields.io/badge/version-1.0.0-blue?style=flat-square" alt="Version"></a>
-  <a href="https://peeler.anants.studio"><img src="https://img.shields.io/badge/Release-The%20Birth-purple?style=flat-square" alt="Release"></a>
 </p>
 
 A lightweight macOS menu bar app for picking colors and extracting palettes from your screen.
