@@ -1,5 +1,11 @@
 # Peeler
 
+![App Icon](Sources/Peeler/Resources/Brand/app-icon.png)
+
+**Version:** 1.0.0 (The Birth)  
+**Author:** [Anant Singhal](https://anants.studio)  
+**Repository:** [github.com/GithubAnant/peeler](https://github.com/GithubAnant/peeler)
+
 A lightweight macOS menu bar app for picking colors and extracting palettes from your screen.
 
 ## Features
@@ -77,9 +83,9 @@ By default `SUFeedURL` points to:
 
 If you host updates elsewhere, change `SUFeedURL` in `Sources/Peeler/Resources/Info.plist`.
 
-### App icon
+## Contributing
 
-Drop a 1024x1024 PNG at `Sources/Peeler/Resources/Brand/app-icon.png` before building. The build script converts it to `.icns` automatically. Without it, the app uses a generic macOS icon.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting pull requests.
 
 ## License
 
