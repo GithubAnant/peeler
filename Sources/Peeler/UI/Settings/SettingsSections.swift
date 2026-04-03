@@ -130,16 +130,34 @@ struct AppearanceSettingsSection: View {
 
     var body: some View {
         GroupCard("Appearance") {
-            Picker("Color theme", selection: $theme) {
-                ForEach(AppTheme.allCases) { theme in
-                    Text(theme.title).tag(theme)
+            HStack {
+                Text("Color theme")
+                    .font(.system(size: 13))
+                Spacer()
+                Picker("", selection: $theme) {
+                    ForEach(AppTheme.allCases) { theme in
+                        Text(theme.title).tag(theme)
+                    }
                 }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+                .fixedSize()
             }
 
-            Picker("Panel position", selection: $panelPosition) {
-                ForEach(PanelPlacement.allCases) { placement in
-                    Text(placement.title).tag(placement)
+            Divider().opacity(0.4)
+
+            HStack {
+                Text("Panel position")
+                    .font(.system(size: 13))
+                Spacer()
+                Picker("", selection: $panelPosition) {
+                    ForEach(PanelPlacement.allCases) { placement in
+                        Text(placement.title).tag(placement)
+                    }
                 }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+                .fixedSize()
             }
         }
         .controlSize(.small)
@@ -202,9 +220,19 @@ struct AboutSettingsSection: View {
 
             HStack {
                 Spacer()
-                Text("Made with 🫶 by not so boring not.people")
+                HStack(spacing: 4) {
+                    Text("Made with 🫶 by")
+                        .font(.system(size: 12))
+                        .foregroundStyle(.secondary)
+                    Button("anant singhal") {
+                        guard let url = URL(string: "https://anants.studio") else { return }
+                        NSWorkspace.shared.open(url)
+                    }
+                    .buttonStyle(.plain)
                     .font(.system(size: 12))
+                    .underline()
                     .foregroundStyle(.secondary)
+                }
                 Spacer()
             }
             .padding(.top, 10)

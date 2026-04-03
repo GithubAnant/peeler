@@ -30,8 +30,15 @@ final class RecorderView: NSView {
     var onCommit: ((HotKeyCombination) -> Void)?
 
     private var currentCombination: HotKeyCombination = .eyedropperDefault
+    private var liveModifiers: NSEvent.ModifierFlags = []
+
     private var isRecording = false {
-        didSet { updateAppearance() }
+        didSet {
+            if isRecording {
+                liveModifiers = []
+            }
+            updateAppearance()
+        }
     }
     private var isHovered = false {
         didSet { updateAppearance() }
@@ -44,7 +51,7 @@ final class RecorderView: NSView {
         layer?.cornerRadius = 6
         layer?.masksToBounds = true
 
-        label.font = .monospacedSystemFont(ofSize: 12, weight: .medium)
+        label.font = .monospacedSystemFont(ofSize: 13, weight: .medium)
         label.alignment = .center
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
 
@@ -52,10 +59,10 @@ final class RecorderView: NSView {
         label.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            heightAnchor.constraint(equalToConstant: 28),
-            widthAnchor.constraint(greaterThanOrEqualToConstant: 80),
-            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            heightAnchor.constraint(equalToConstant: 30),
+            widthAnchor.constraint(greaterThanOrEqualToConstant: 90),
+            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 14),
+            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -14),
             label.centerYAnchor.constraint(equalTo: centerYAnchor),
         ])
 
@@ -77,6 +84,12 @@ final class RecorderView: NSView {
     override func resignFirstResponder() -> Bool {
         isRecording = false
         return true
+    }
+
+    override func flagsChanged(with event: NSEvent) {
+        guard isRecording else { return }
+        liveModifiers = event.modifierFlags.intersection([.control, .option, .shift, .command])
+        updateAppearance()
     }
 
     override func keyDown(with event: NSEvent) {
@@ -127,6 +140,26 @@ final class RecorderView: NSView {
         updateAppearance()
     }
 
+    // MARK: - Display helpers
+
+    private var liveModifierString: String {
+        var parts: [String] = []
+        if liveModifiers.contains(.control) { parts.append("⌃") }
+        if liveModifiers.contains(.option) { parts.append("⌥") }
+        if liveModifiers.contains(.shift) { parts.append("⇧") }
+        if liveModifiers.contains(.command) { parts.append("⌘") }
+        return parts.joined()
+    }
+
+    private var recordingDisplayText: String {
+        let mods = liveModifierString
+        if mods.isEmpty {
+            return "Type shortcut…"
+        }
+        // Show modifiers pressed so far + ellipsis for the pending key
+        return mods + "…"
+    }
+
     private func updateAppearance() {
         let strokeColor: NSColor
         let fillColor: NSColor
@@ -149,6 +182,16 @@ final class RecorderView: NSView {
         layer?.borderColor = strokeColor.cgColor
         layer?.borderWidth = isRecording ? 1.5 : 0.75
 
-        label.stringValue = isRecording ? "Type shortcut…" : currentCombination.displayString
+        let text = isRecording ? recordingDisplayText : currentCombination.displayString
+        let kern: CGFloat = isRecording && liveModifierString.isEmpty ? 0 : 3
+        let attributed = NSAttributedString(
+            string: text,
+            attributes: [
+                .kern: kern,
+                .font: label.font!,
+                .foregroundColor: label.textColor ?? .labelColor,
+            ]
+        )
+        label.attributedStringValue = attributed
     }
 }

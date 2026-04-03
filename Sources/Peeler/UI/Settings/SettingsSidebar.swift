@@ -34,11 +34,12 @@ struct SettingsSidebar: View {
         List(SettingsPane.allCases, selection: $selection) { pane in
             Label(pane.title, systemImage: pane.icon)
                 .tag(pane)
-                .font(.system(size: 14, weight: .medium))
-                .imageScale(.medium)
-                .padding(.vertical, 2)
+                .font(.system(size: 12.5, weight: .regular))
+                .imageScale(.small)
+                .padding(.vertical, 1)
         }
         .listStyle(.sidebar)
+        .environment(\.controlSize, .small)
         .navigationSplitViewColumnWidth(min: 220, ideal: 240)
     }
 }

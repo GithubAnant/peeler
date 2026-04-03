@@ -85,8 +85,10 @@ final class WindowRouter {
         guard let window else { return }
         let contentRect = NSRect(origin: .zero, size: size)
         let frame = window.frameRect(forContentRect: contentRect)
-        window.contentMinSize = size
-        window.minSize = frame.size
+        let minContent = NSSize(width: 580, height: 400)
+        let minFrame = window.frameRect(forContentRect: NSRect(origin: .zero, size: minContent))
+        window.contentMinSize = minContent
+        window.minSize = minFrame.size
         window.setContentSize(size)
         window.setFrame(frame, display: true)
     }
