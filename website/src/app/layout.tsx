@@ -43,6 +43,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${displayFont.variable} ${bodyFont.variable}`}>
+      <head>
+        <script
+          src="https://cdn.databuddy.cc/databuddy.js"
+          data-client-id="c363dba9-3155-4a9f-87f5-69b47a928b59"
+          crossOrigin="anonymous"
+          async
+        />
+      </head>
       <body>
         <SmoothScroll />
         {children}
