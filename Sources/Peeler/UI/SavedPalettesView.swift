@@ -26,33 +26,28 @@ struct SavedPalettesView: View {
                     VStack(spacing: 16) {
                         ForEach(appState.savedPalettes) { palette in
                             GroupCard {
-                                HStack(alignment: .top, spacing: 14) {
-                                    ThumbnailPreview(data: palette.thumbnailData)
-                                        .frame(width: 96)
-                                    VStack(alignment: .leading, spacing: 8) {
-                                        Text(palette.displayName)
-                                            .font(.headline)
-                                        Text("Saved \(DateFormatter.paletteTitleFormatter.string(from: palette.updatedAt))")
-                                            .font(.caption)
-                                            .foregroundStyle(.secondary)
-                                        HStack(spacing: 6) {
-                                            ForEach(palette.colorHexValues, id: \.self) { hex in
-                                                SwatchCircle(hex: hex, size: 18)
-                                            }
+                                VStack(alignment: .leading, spacing: 10) {
+                                    HStack(alignment: .firstTextBaseline) {
+                                        VStack(alignment: .leading, spacing: 4) {
+                                            Text(palette.displayName)
+                                                .font(.headline)
+                                            Text("Saved \(DateFormatter.paletteTitleFormatter.string(from: palette.updatedAt))")
+                                                .font(.caption)
+                                                .foregroundStyle(.secondary)
                                         }
-                                        HStack {
-                                            Button("Open in Panel") {
-                                                appState.loadPalette(palette)
-                                            }
-                                            Button("Export") {
-                                                selectedPalette = palette
-                                            }
-                                            Button("Delete", role: .destructive) {
-                                                appState.deletePalette(palette)
-                                            }
+                                        Spacer()
+                                        Button("Open") {
+                                            appState.loadPalette(palette)
+                                        }
+                                        Button("Export") {
+                                            selectedPalette = palette
+                                        }
+                                        Button("Delete", role: .destructive) {
+                                            appState.deletePalette(palette)
                                         }
                                     }
-                                    Spacer()
+
+                                    CompactPaletteStrip(colors: palette.colorHexValues)
                                 }
                             }
                         }

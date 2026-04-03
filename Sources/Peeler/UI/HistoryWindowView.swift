@@ -40,31 +40,26 @@ struct HistoryWindowView: View {
                                 .foregroundStyle(.secondary)
                         } else {
                             ForEach(appState.paletteHistory.prefix(20)) { palette in
-                                Button {
-                                    appState.loadPalette(palette)
-                                } label: {
-                                    HStack(spacing: 12) {
-                                        ThumbnailPreview(data: palette.thumbnailData)
-                                            .frame(width: 88)
-                                        VStack(alignment: .leading, spacing: 8) {
-                                            Text(palette.displayName)
-                                                .font(.headline)
-                                            Text(DateFormatter.paletteTitleFormatter.string(from: palette.createdAt))
-                                                .font(.caption)
-                                                .foregroundStyle(.secondary)
-                                            HStack(spacing: 6) {
-                                                ForEach(palette.colorHexValues.prefix(6), id: \.self) { hex in
-                                                    SwatchCircle(hex: hex, size: 16)
-                                                }
+                                GroupCard {
+                                    VStack(alignment: .leading, spacing: 10) {
+                                        HStack(alignment: .firstTextBaseline) {
+                                            VStack(alignment: .leading, spacing: 4) {
+                                                Text(palette.displayName)
+                                                    .font(.headline)
+                                                Text(DateFormatter.paletteTitleFormatter.string(from: palette.createdAt))
+                                                    .font(.caption)
+                                                    .foregroundStyle(.secondary)
                                             }
+                                            Spacer()
+                                            Button("Open") {
+                                                appState.loadPalette(palette)
+                                            }
+                                            .buttonStyle(.borderless)
                                         }
-                                        Spacer()
-                                    }
-                                    .contentShape(Rectangle())
-                                }
-                                .buttonStyle(.plain)
 
-                                Divider()
+                                        CompactPaletteStrip(colors: palette.colorHexValues, maxColors: 6)
+                                    }
+                                }
                             }
                         }
                     }

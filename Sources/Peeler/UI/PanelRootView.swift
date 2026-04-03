@@ -19,11 +19,13 @@ struct PanelRootView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
 
-            switch appState.settings.lastActiveTab {
-            case .eyedropper:
-                EyedropperTabView()
-            case .palette:
-                PaletteTabView()
+            ScrollView(.vertical, showsIndicators: false) {
+                switch appState.settings.lastActiveTab {
+                case .eyedropper:
+                    EyedropperTabView()
+                case .palette:
+                    PaletteTabView()
+                }
             }
         }
         .padding(12)

@@ -6,47 +6,38 @@ struct EyedropperTabView: View {
     var body: some View {
         VStack(spacing: 12) {
             GroupCard {
-                Button {
-                    appState.triggerEyedropper?()
-                } label: {
-                    Label("Pick Color", systemImage: "eyedropper")
-                        .frame(maxWidth: .infinity)
-                }
-                .keyboardShortcut(.return, modifiers: [])
-                .controlSize(.large)
-                .buttonStyle(.borderedProminent)
-            }
+                HStack(alignment: .center, spacing: 12) {
+                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                        .fill(Color(nsColor: appState.currentColor?.nsColor ?? NSColor(calibratedWhite: 0.34, alpha: 1)))
+                        .frame(width: 78, height: 78)
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                .strokeBorder(Color.white.opacity(0.05), lineWidth: 0.75)
+                        )
 
-            GroupCard {
-                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                    .fill(Color(nsColor: appState.currentColor?.nsColor ?? NSColor(calibratedWhite: 0.34, alpha: 1)))
-                    .frame(height: 104)
-                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-                    .overlay(alignment: .bottomLeading) {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text(appState.settings.preferredFormat.shortLabel)
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(.secondary)
+
                         if appState.currentColor == nil {
                             Text("Pick a color to get started")
                                 .font(.callout)
-                                .foregroundStyle(.white.opacity(0.9))
-                                .padding(14)
+                                .foregroundStyle(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        } else {
+                            Text(appState.currentColorValue)
+                                .font(.system(size: 16, weight: .medium, design: .monospaced))
+                                .textSelection(.enabled)
+                                .lineLimit(3)
+                                .fixedSize(horizontal: false, vertical: true)
                         }
                     }
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 14, style: .continuous)
-                            .strokeBorder(Color.white.opacity(0.05), lineWidth: 0.75)
-                    )
 
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(appState.settings.preferredFormat.shortLabel)
-                        .font(.system(size: 11, weight: .semibold))
-                        .foregroundStyle(.secondary)
-                    Text(appState.currentColorValue)
-                        .font(.system(size: 16, weight: .medium, design: .monospaced))
-                        .textSelection(.enabled)
-                        .lineLimit(2)
+                    Spacer(minLength: 0)
                 }
-            }
 
-            GroupCard("Formats") {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
                         ForEach(CopyFormat.allCases) { format in
@@ -67,6 +58,16 @@ struct EyedropperTabView: View {
                         }
                     }
                 }
+
+                Button {
+                    appState.triggerEyedropper?()
+                } label: {
+                    Label("Pick Color", systemImage: "eyedropper")
+                        .frame(maxWidth: .infinity)
+                }
+                .keyboardShortcut(.return, modifiers: [])
+                .controlSize(.large)
+                .buttonStyle(.borderedProminent)
             }
 
             GroupCard("Recent Colors") {

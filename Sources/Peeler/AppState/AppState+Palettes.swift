@@ -43,6 +43,10 @@ extension AppState {
         setSelectedTab(.palette)
     }
 
+    func clearActivePaletteSelection() {
+        activePalette = nil
+    }
+
     func renamePalette(_ palette: PaletteRecord, name: String) {
         guard let index = paletteHistory.firstIndex(where: { $0.id == palette.id }) else { return }
         paletteHistory[index].name = name

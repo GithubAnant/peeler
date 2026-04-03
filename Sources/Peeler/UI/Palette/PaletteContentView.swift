@@ -1,16 +1,13 @@
 import SwiftUI
 
 struct PaletteContentView: View {
-    @EnvironmentObject private var appState: AppState
-
     let palette: PaletteRecord
-    let columns: [GridItem]
     @Binding var paletteName: String
     @Binding var exportSheetVisible: Bool
 
     var body: some View {
         VStack(spacing: 12) {
-            PaletteGridSection(palette: palette, columns: columns)
+            PaletteGridSection(palette: palette)
             PaletteActionsSection(
                 palette: palette,
                 paletteName: $paletteName,
@@ -24,32 +21,27 @@ struct PaletteGridSection: View {
     @EnvironmentObject private var appState: AppState
 
     let palette: PaletteRecord
-    let columns: [GridItem]
 
     var body: some View {
         GroupCard {
+            HStack(alignment: .center) {
+                Text("Selected Region")
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(.secondary)
+                Spacer()
+                Button("Clear Selection") {
+                    appState.clearActivePaletteSelection()
+                }
+                .buttonStyle(.link)
+            }
+
             ThumbnailPreview(data: palette.thumbnailData)
 
-            LazyVGrid(columns: columns, spacing: 10) {
-                ForEach(palette.colorHexValues, id: \.self) { hex in
-                    Button {
-                        appState.copy(colorHex: hex, format: appState.settings.preferredFormat)
-                    } label: {
-                        PaletteSwatchTile(hex: hex)
-                    }
-                    .buttonStyle(.plain)
-                    .contextMenu {
-                        ForEach([CopyFormat.hex, .rgb, .hsl], id: \.self) { format in
-                            Button("Copy as \(format.shortLabel)") {
-                                appState.copy(colorHex: hex, format: format)
-                            }
-                        }
-                        Button("Remove from Palette", role: .destructive) {
-                            appState.removeColorFromActivePalette(hex)
-                        }
-                    }
-                }
-            }
+            CompactPaletteStrip(colors: palette.colorHexValues)
+
+            Text("Click any color to copy it in \(appState.settings.preferredFormat.shortLabel).")
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
     }
 }
@@ -68,6 +60,9 @@ struct PaletteActionsSection: View {
                     let csv = palette.colorHexValues.joined(separator: ", ")
                     NSPasteboard.general.clearContents()
                     NSPasteboard.general.setString(csv, forType: .string)
+                }
+                Button("Capture Again") {
+                    appState.triggerPaletteCapture?()
                 }
                 Button("Export") {
                     exportSheetVisible = true

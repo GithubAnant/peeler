@@ -6,17 +6,10 @@ struct PaletteTabView: View {
     @State private var paletteName = ""
     @State private var exportFormat: ExportFormat = .cssVariables
 
-    private let columns = [
-        GridItem(.flexible(), spacing: 10),
-        GridItem(.flexible(), spacing: 10),
-        GridItem(.flexible(), spacing: 10),
-    ]
-
     var body: some View {
         if let palette = appState.activePalette {
             PaletteContentView(
                 palette: palette,
-                columns: columns,
                 paletteName: $paletteName,
                 exportSheetVisible: $exportSheetVisible
             )
