@@ -1,10 +1,11 @@
 # Peeler
 
 <p align="center">
-  <a href="https://peeler.anants.studio"><img src="Sources/Peeler/Resources/Brand/app-icon.png" width="64" alt="Peeler"></a>
+  <a href="https://peeler.anants.studio"><img src="Sources/Peeler/Resources/Brand/app-icon.png" width="128" alt="Peeler"></a>
 </p>
 <p align="center">
   <a href="https://github.com/GithubAnant/peeler/releases"><img src="https://img.shields.io/badge/version-1.0.0-blue?style=flat-square" alt="Version"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="MIT License"></a>
 </p>
 
 A lightweight macOS menu bar app for picking colors and extracting palettes from your screen.
