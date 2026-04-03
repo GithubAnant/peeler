@@ -6,8 +6,8 @@
 <p align="center">
   <!-- <a href="https://github.com/GithubAnant/peeler/releases/latest"><img src="https://img.shields.io/github/downloads/GithubAnant/peeler/total?style=flat-square" alt="Downloads"></a> -->
   <a href="https://github.com/GithubAnant/peeler/releases"><img src="https://img.shields.io/badge/version-1.0.0-blue?style=flat-square" alt="Version"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="MIT License"></a>
-  <a href="#requirements"><img src="https://img.shields.io/badge/platform-macOS%2013.0+-black?style=flat-square" alt="Platform"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-red?style=flat-square" alt="MIT License"></a>
+  <a href="#requirements"><img src="https://img.shields.io/badge/platform-macOS%2013.0+-orange?style=flat-square" alt="Platform"></a>
 </p>
 
 A lightweight macOS menu bar app for picking colors and extracting palettes from your screen.
