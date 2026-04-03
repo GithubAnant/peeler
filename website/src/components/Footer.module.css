@@ -1,0 +1,105 @@
+.footer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  margin: 72px auto 0;
+  padding: 70px 32px 62px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px 28px 0 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015)),
+    #171615;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.92rem;
+}
+
+.footerBrandBlock {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+}
+
+.footerBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footerLogo {
+  width: 30px;
+  height: 30px;
+}
+
+.footerBrandText {
+  color: rgba(255, 255, 255, 0.96);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+}
+
+.footerDescription {
+  max-width: 360px;
+  color: rgba(255, 255, 255, 0.46);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.footerSocials {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.footerSocials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.footerSocials a svg {
+  width: 22px;
+  height: 22px;
+}
+
+.footerNavBlock {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 22px;
+  min-width: 132px;
+  padding-top: 4px;
+}
+
+.footerNavTitle {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.96rem;
+  font-weight: 600;
+}
+
+.footerLinks {
+  display: grid;
+  gap: 18px;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.footerLinks a {
+  transition: opacity 180ms ease, border-color 180ms ease;
+}
+
+.footerLinks a:hover {
+  opacity: 0.7;
+}
+
+@media (max-width: 640px) {
+  .footer {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 40px 24px 44px;
+  }
+}

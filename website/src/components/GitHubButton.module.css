@@ -1,0 +1,35 @@
+.githubButton {
+  display: inline-flex;
+  align-items: center;
+  justify-self: end;
+  gap: 10px;
+  padding: 11px 18px;
+  border-radius: 14px;
+  background: #fbfbfb;
+  color: #111;
+  font-size: 0.96rem;
+  font-weight: 600;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18);
+}
+
+.githubIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.githubStarIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.starRight {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding-left: 8px;
+}
+
+.starCount {
+  font-weight: 500;
+  opacity: 0.7;
+}

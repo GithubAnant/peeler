@@ -1,0 +1,17 @@
+.downloadButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 38px;
+  padding: 14px 22px;
+  border-radius: 15px;
+  background: #fbfbfb;
+  color: #101010;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.downloadIcon {
+  width: 18px;
+  height: 18px;
+}
