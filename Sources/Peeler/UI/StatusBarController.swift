@@ -49,7 +49,8 @@ final class StatusBarController: NSObject {
 
         switch event.type {
         case .rightMouseUp:
-            showContextMenu()
+            closePanel()
+            showContextMenu(with: event)
         default:
             onTogglePanel()
         }
@@ -86,10 +87,10 @@ final class StatusBarController: NSObject {
         return menu
     }
 
-    private func showContextMenu() {
+    private func showContextMenu(with event: NSEvent) {
         guard let button = statusItem.button else { return }
         let menu = makeMenu()
-        menu.popUp(positioning: nil, at: NSPoint(x: 0, y: button.bounds.maxY + 6), in: button)
+        NSMenu.popUpContextMenu(menu, with: event, for: button)
     }
 
     @objc private func openHistory() {

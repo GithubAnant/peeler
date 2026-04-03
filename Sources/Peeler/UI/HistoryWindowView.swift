@@ -10,50 +10,62 @@ struct HistoryWindowView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
                     GroupCard("Recent Colors") {
-                        LazyVGrid(columns: colorColumns, spacing: 12) {
-                            ForEach(appState.recentColors) { color in
-                                Button {
-                                    appState.selectRecentColor(color)
-                                } label: {
-                                    VStack(spacing: 6) {
-                                        SwatchCircle(hex: color.hex, size: 32)
-                                        Text(color.hex)
-                                            .font(.system(size: 10, design: .monospaced))
-                                            .foregroundStyle(.secondary)
+                        if appState.recentColors.isEmpty {
+                            Text("No picked colors yet. Use the eyedropper and they’ll show up here.")
+                                .font(.callout)
+                                .foregroundStyle(.secondary)
+                        } else {
+                            LazyVGrid(columns: colorColumns, spacing: 12) {
+                                ForEach(appState.recentColors) { color in
+                                    Button {
+                                        appState.selectRecentColor(color)
+                                    } label: {
+                                        VStack(spacing: 6) {
+                                            SwatchCircle(hex: color.hex, size: 32)
+                                            Text(color.hex)
+                                                .font(.system(size: 10, design: .monospaced))
+                                                .foregroundStyle(.secondary)
+                                        }
                                     }
+                                    .buttonStyle(.plain)
                                 }
-                                .buttonStyle(.plain)
                             }
                         }
                     }
 
                     GroupCard("Recent Palettes") {
-                        ForEach(appState.paletteHistory.prefix(20)) { palette in
-                            Button {
-                                appState.loadPalette(palette)
-                            } label: {
-                                HStack(spacing: 12) {
-                                    ThumbnailPreview(data: palette.thumbnailData)
-                                        .frame(width: 88)
-                                    VStack(alignment: .leading, spacing: 8) {
-                                        Text(palette.displayName)
-                                            .font(.headline)
-                                        Text(DateFormatter.paletteTitleFormatter.string(from: palette.createdAt))
-                                            .font(.caption)
-                                            .foregroundStyle(.secondary)
-                                        HStack(spacing: 6) {
-                                            ForEach(palette.colorHexValues.prefix(6), id: \.self) { hex in
-                                                SwatchCircle(hex: hex, size: 16)
+                        if appState.paletteHistory.isEmpty {
+                            Text("No captured palettes yet. Capture a region with ⌘⇧X and it’ll appear here.")
+                                .font(.callout)
+                                .foregroundStyle(.secondary)
+                        } else {
+                            ForEach(appState.paletteHistory.prefix(20)) { palette in
+                                Button {
+                                    appState.loadPalette(palette)
+                                } label: {
+                                    HStack(spacing: 12) {
+                                        ThumbnailPreview(data: palette.thumbnailData)
+                                            .frame(width: 88)
+                                        VStack(alignment: .leading, spacing: 8) {
+                                            Text(palette.displayName)
+                                                .font(.headline)
+                                            Text(DateFormatter.paletteTitleFormatter.string(from: palette.createdAt))
+                                                .font(.caption)
+                                                .foregroundStyle(.secondary)
+                                            HStack(spacing: 6) {
+                                                ForEach(palette.colorHexValues.prefix(6), id: \.self) { hex in
+                                                    SwatchCircle(hex: hex, size: 16)
+                                                }
                                             }
                                         }
+                                        Spacer()
                                     }
-                                    Spacer()
+                                    .contentShape(Rectangle())
                                 }
-                                .contentShape(Rectangle())
-                            }
-                            .buttonStyle(.plain)
+                                .buttonStyle(.plain)
 
-                            Divider()
+                                Divider()
+                            }
                         }
                     }
                 }
