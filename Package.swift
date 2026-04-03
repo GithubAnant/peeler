@@ -14,6 +14,10 @@ let package = Package(
         .executableTarget(
             name: "Peeler",
             path: "Sources/Peeler",
+            exclude: [
+                "Resources/Info.plist",
+                "Resources/Peeler.entitlements",
+            ],
             resources: [
                 .process("Resources"),
             ]

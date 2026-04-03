@@ -75,6 +75,12 @@ struct AppearanceSettingsSection: View {
 }
 
 struct AboutSettingsSection: View {
+    private var versionString: String {
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0.0"
+        let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "1"
+        return "Version \(version) (\(build))"
+    }
+
     var body: some View {
         GroupCard("About and Updates") {
             HStack(spacing: 12) {
@@ -83,11 +89,8 @@ struct AboutSettingsSection: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Peeler")
                         .font(.headline)
-                    Text("Version 1.0 concept build")
+                    Text(versionString)
                         .foregroundStyle(.secondary)
-                    Text("Add `Sources/Peeler/Resources/Brand/app-icon.png` to replace the placeholder badge.")
-                        .font(.caption)
-                        .foregroundStyle(.tertiary)
                 }
             }
 
