@@ -166,76 +166,104 @@ struct AppearanceSettingsSection: View {
 }
 
 struct AboutSettingsSection: View {
-    @Binding var automaticallyCheckUpdates: Bool
-    @Binding var automaticallyDownloadUpdates: Bool
-
-    private var versionString: String {
-        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0.0"
-        let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "1"
-        return "Version \(version) (\(build))"
-    }
-
-    private var releaseName: String {
-        "Flying Rabbit"
-    }
+    let metadata: AppMetadata
+    @ObservedObject var updater: AppUpdateController
 
     var body: some View {
         VStack(alignment: .leading, spacing: 22) {
+            GroupCard("About Peeler") {
+                HStack(spacing: 14) {
+                    BrandBadgeView()
+
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text(metadata.displayName)
+                            .font(.system(size: 18, weight: .semibold))
+
+                        if let releaseName = metadata.releaseName, !releaseName.isEmpty {
+                            Text(releaseName)
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundStyle(.secondary)
+                        }
+
+                        Text("Version \(metadata.versionDescription)")
+                            .font(.system(size: 12))
+                            .foregroundStyle(.secondary)
+                    }
+
+                    Spacer()
+                }
+            }
+
             GroupCard("Version Info") {
-                SettingsInfoRow(label: "Release name", value: "\(releaseName)  🐇")
+                SettingsInfoRow(label: "App", value: metadata.appName)
                 Divider().overlay(Color.white.opacity(0.05))
-                SettingsInfoRow(label: "Version", value: versionString.replacingOccurrences(of: "Version ", with: ""))
+                SettingsInfoRow(label: "Version", value: metadata.version)
+                Divider().overlay(Color.white.opacity(0.05))
+                SettingsInfoRow(label: "Build", value: metadata.build)
+                Divider().overlay(Color.white.opacity(0.05))
+                SettingsInfoRow(label: "Bundle ID", value: metadata.bundleIdentifier)
+                Divider().overlay(Color.white.opacity(0.05))
+                SettingsInfoRow(label: "Minimum macOS", value: metadata.minimumSystemVersion)
+                Divider().overlay(Color.white.opacity(0.05))
+                SettingsInfoRow(label: "Installed At", value: metadata.installPath)
             }
 
             GroupCard("Software Updates") {
-                SettingsToggleRow(title: "Automatically check for updates", isOn: $automaticallyCheckUpdates)
+                SettingsInfoRow(label: "Status", value: updater.statusDescription)
                 Divider().overlay(Color.white.opacity(0.05))
-                SettingsToggleRow(title: "Automatically download updates", isOn: $automaticallyDownloadUpdates)
+                SettingsInfoRow(label: "Appcast Feed", value: metadata.updateFeedURL?.absoluteString ?? "Not configured")
+                Divider().overlay(Color.white.opacity(0.05))
+                SettingsToggleRow(
+                    title: "Automatically check for updates",
+                    isOn: Binding(
+                        get: { updater.automaticallyChecksForUpdates },
+                        set: { updater.setAutomaticallyChecksForUpdates($0) }
+                    )
+                )
+                .disabled(!updater.isConfigured)
+                Divider().overlay(Color.white.opacity(0.05))
+                SettingsToggleRow(
+                    title: "Automatically download updates",
+                    isOn: Binding(
+                        get: { updater.automaticallyDownloadsUpdates },
+                        set: { updater.setAutomaticallyDownloadsUpdates($0) }
+                    )
+                )
+                .disabled(!updater.isConfigured || !updater.automaticallyChecksForUpdates)
             }
 
-            Button {
-                guard let url = URL(string: "https://github.com/sponsors") else { return }
-                NSWorkspace.shared.open(url)
-            } label: {
-                VStack(spacing: 10) {
-                    Image(systemName: "chevron.left.forwardslash.chevron.right")
-                        .font(.system(size: 26, weight: .semibold))
-                    Text("GitHub")
-                        .font(.system(size: 18, weight: .medium))
+            GroupCard("Links") {
+                if let homepageURL = metadata.homepageURL {
+                    SettingsLinkRow(title: "Website", url: homepageURL)
+                    if metadata.repositoryURL != nil || metadata.authorURL != nil {
+                        Divider().overlay(Color.white.opacity(0.05))
+                    }
                 }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 26)
+
+                if let repositoryURL = metadata.repositoryURL {
+                    SettingsLinkRow(title: "Repository", url: repositoryURL)
+                    if metadata.authorURL != nil {
+                        Divider().overlay(Color.white.opacity(0.05))
+                    }
+                }
+
+                if let authorURL = metadata.authorURL {
+                    SettingsLinkRow(
+                        title: metadata.authorName.map { "Author (\($0))" } ?? "Author",
+                        url: authorURL
+                    )
+                }
             }
-            .buttonStyle(.plain)
-            .background(
-                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                    .fill(Color.white.opacity(0.045))
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                    .strokeBorder(Color.white.opacity(0.035), lineWidth: 0.75)
-            )
 
             Spacer(minLength: 0)
 
-            HStack {
-                Spacer()
-                HStack(spacing: 4) {
-                    Text("Made with 🫶 by")
-                        .font(.system(size: 12))
-                        .foregroundStyle(.secondary)
-                    Button("anant singhal") {
-                        guard let url = URL(string: "https://anants.studio") else { return }
-                        NSWorkspace.shared.open(url)
-                    }
-                    .buttonStyle(.plain)
+            if let copyright = metadata.copyright {
+                Text(copyright)
                     .font(.system(size: 12))
-                    .underline()
                     .foregroundStyle(.secondary)
-                }
-                Spacer()
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, 10)
             }
-            .padding(.top, 10)
         }
     }
 }
@@ -252,6 +280,8 @@ private struct SettingsInfoRow: View {
             Text(value)
                 .font(.system(size: 13))
                 .foregroundStyle(.secondary)
+                .multilineTextAlignment(.trailing)
+                .textSelection(.enabled)
         }
     }
 }
@@ -268,6 +298,26 @@ private struct SettingsToggleRow: View {
             Toggle("", isOn: $isOn)
                 .labelsHidden()
                 .controlSize(.small)
+        }
+    }
+}
+
+private struct SettingsLinkRow: View {
+    let title: String
+    let url: URL
+
+    var body: some View {
+        HStack(alignment: .firstTextBaseline) {
+            Text(title)
+                .font(.system(size: 13, weight: .medium))
+            Spacer()
+            Button(url.absoluteString) {
+                NSWorkspace.shared.open(url)
+            }
+            .buttonStyle(.plain)
+            .font(.system(size: 13))
+            .foregroundStyle(.secondary)
+            .underline()
         }
     }
 }

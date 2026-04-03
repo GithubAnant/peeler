@@ -37,24 +37,6 @@ extension SettingsWindowView {
         )
     }
 
-    var automaticallyCheckUpdatesBinding: Binding<Bool> {
-        Binding(
-            get: { appState.settings.automaticallyCheckUpdates },
-            set: { value in
-                appState.updateSettings { $0.automaticallyCheckUpdates = value }
-            }
-        )
-    }
-
-    var automaticallyDownloadUpdatesBinding: Binding<Bool> {
-        Binding(
-            get: { appState.settings.automaticallyDownloadUpdates },
-            set: { value in
-                appState.updateSettings { $0.automaticallyDownloadUpdates = value }
-            }
-        )
-    }
-
     var themeBinding: Binding<AppTheme> {
         Binding(
             get: { appState.settings.theme },

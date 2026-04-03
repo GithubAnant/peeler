@@ -154,8 +154,6 @@ struct AppSettings: Codable {
     var paletteColorCount: Int = 6
     var launchAtLogin: Bool = false
     var playCopySound: Bool = true
-    var automaticallyCheckUpdates: Bool = true
-    var automaticallyDownloadUpdates: Bool = true
     var theme: AppTheme = .system
     var panelPosition: PanelPlacement = .auto
     var eyedropperHotkey: HotKeyCombination = .eyedropperDefault
@@ -167,8 +165,6 @@ struct AppSettings: Codable {
         case paletteColorCount
         case launchAtLogin
         case playCopySound
-        case automaticallyCheckUpdates
-        case automaticallyDownloadUpdates
         case theme
         case panelPosition
         case eyedropperHotkey
@@ -184,8 +180,6 @@ struct AppSettings: Codable {
         paletteColorCount = try container.decodeIfPresent(Int.self, forKey: .paletteColorCount) ?? 6
         launchAtLogin = try container.decodeIfPresent(Bool.self, forKey: .launchAtLogin) ?? false
         playCopySound = try container.decodeIfPresent(Bool.self, forKey: .playCopySound) ?? true
-        automaticallyCheckUpdates = try container.decodeIfPresent(Bool.self, forKey: .automaticallyCheckUpdates) ?? true
-        automaticallyDownloadUpdates = try container.decodeIfPresent(Bool.self, forKey: .automaticallyDownloadUpdates) ?? true
         theme = try container.decodeIfPresent(AppTheme.self, forKey: .theme) ?? .system
         panelPosition = try container.decodeIfPresent(PanelPlacement.self, forKey: .panelPosition) ?? .auto
         eyedropperHotkey = try container.decodeIfPresent(HotKeyCombination.self, forKey: .eyedropperHotkey) ?? .eyedropperDefault

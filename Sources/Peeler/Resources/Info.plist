@@ -12,6 +12,20 @@
     <string>1</string>
     <key>CFBundleShortVersionString</key>
     <string>1.0.0</string>
+    <key>PeelerReleaseName</key>
+    <string>Flying Rabbit</string>
+    <key>PeelerHomepageURL</key>
+    <string>https://anants.studio</string>
+    <key>PeelerRepositoryURL</key>
+    <string>https://github.com/GithubAnant/peeler</string>
+    <key>PeelerAuthorName</key>
+    <string>Anant Singhal</string>
+    <key>PeelerAuthorURL</key>
+    <string>https://anants.studio</string>
+    <key>SUFeedURL</key>
+    <string>https://github.com/GithubAnant/peeler/releases/latest/download/appcast.xml</string>
+    <key>SUPublicEDKey</key>
+    <string>__SPARKLE_PUBLIC_ED_KEY__</string>
     <key>CFBundleIconFile</key>
     <string>AppIcon</string>
     <key>CFBundlePackageType</key>

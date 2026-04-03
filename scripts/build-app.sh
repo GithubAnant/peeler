@@ -12,6 +12,7 @@ BUNDLE_DIR="$PROJECT_ROOT/build/${APP_NAME}.app"
 CONTENTS_DIR="$BUNDLE_DIR/Contents"
 MACOS_DIR="$CONTENTS_DIR/MacOS"
 RESOURCES_DIR="$CONTENTS_DIR/Resources"
+FRAMEWORKS_DIR="$CONTENTS_DIR/Frameworks"
 
 RESOURCES_SRC="$PROJECT_ROOT/Sources/Peeler/Resources"
 ICON_PNG="$RESOURCES_SRC/Brand/app-icon.png"
@@ -33,7 +34,7 @@ echo "    Binary: $BINARY"
 
 echo "==> Creating .app bundle..."
 rm -rf "$BUNDLE_DIR"
-mkdir -p "$MACOS_DIR" "$RESOURCES_DIR"
+mkdir -p "$MACOS_DIR" "$RESOURCES_DIR" "$FRAMEWORKS_DIR"
 
 # Copy binary
 cp "$BINARY" "$MACOS_DIR/$APP_NAME"
@@ -47,6 +48,15 @@ SPM_RESOURCES="$(swift build -c release --show-bin-path)/Peeler_Peeler.bundle"
 if [[ -d "$SPM_RESOURCES" ]]; then
     echo "    Copying SPM resource bundle..."
     cp -R "$SPM_RESOURCES" "$RESOURCES_DIR/"
+fi
+
+# Copy Sparkle.framework if present so the app can perform in-app updates.
+SPARKLE_FRAMEWORK="$(find "$PROJECT_ROOT/.build" -type d -name Sparkle.framework -print -quit 2>/dev/null || true)"
+if [[ -n "$SPARKLE_FRAMEWORK" ]]; then
+    echo "    Embedding Sparkle.framework..."
+    ditto "$SPARKLE_FRAMEWORK" "$FRAMEWORKS_DIR/Sparkle.framework"
+else
+    echo "    WARN: Sparkle.framework was not found in .build — update checks will be unavailable in this bundle."
 fi
 
 # ── Convert app-icon.png → AppIcon.icns ──────────────────────────────────────

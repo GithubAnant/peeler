@@ -15,6 +15,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var hudController: HUDPanelController?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        appState.updater.start()
         hudController = HUDPanelController()
         windowRouter = WindowRouter(appState: appState)
         statusBarController = StatusBarController(

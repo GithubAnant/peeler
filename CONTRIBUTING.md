@@ -23,12 +23,17 @@ Thanks for your interest in contributing! Here's how to get started.
 - Keep PRs small and focused — easier to review, faster to merge
 - If your PR adds a new feature, mention how to test it
 
+## Dependencies
+
+- Sparkle is used for in-app updates
+- Keep `SUPublicEDKey` and `SUFeedURL` in `Sources/Peeler/Resources/Info.plist` aligned with the release pipeline
+
 ## Code Style
 
 - Follow existing patterns in the codebase
 - Use SwiftUI for UI, AppKit only where necessary
 - Keep files focused on a single responsibility
-- No third-party dependencies — the project uses only Apple frameworks
+- Keep third-party dependencies minimal and justified
 
 ## Reporting Issues
 

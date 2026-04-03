@@ -15,7 +15,11 @@ struct SettingsWindowView: View {
                             .font(.system(size: 25, weight: .semibold))
                         Spacer()
                         if selection == .about {
-                            Button("Check for Updates...") {}
+                            Button("Check for Updates...") {
+                                appState.updater.checkForUpdates()
+                            }
+                            .disabled(!appState.updater.canCheckForUpdates)
+                            .help(appState.updater.statusDescription)
                                 .controlSize(.small)
                         } else {
                             Button("Quit App") {
@@ -49,8 +53,8 @@ struct SettingsWindowView: View {
                         )
                     case .about:
                         AboutSettingsSection(
-                            automaticallyCheckUpdates: automaticallyCheckUpdatesBinding,
-                            automaticallyDownloadUpdates: automaticallyDownloadUpdatesBinding
+                            metadata: appState.appMetadata,
+                            updater: appState.updater
                         )
                     }
                 }

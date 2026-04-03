@@ -1,4 +1,5 @@
 import AppKit
+import Combine
 import SwiftUI
 
 @MainActor
@@ -11,6 +12,9 @@ final class AppState: ObservableObject {
     @Published var permissionAlertVisible = false
     @Published var hotKeyConflictMessage: String?
 
+    let appMetadata: AppMetadata
+    let updater: AppUpdateController
+
     var triggerEyedropper: (() -> Void)?
     var triggerPaletteCapture: (() -> Void)?
     var openSettingsWindow: (() -> Void)?
@@ -20,10 +24,17 @@ final class AppState: ObservableObject {
     var presentHUD: ((HUDPayload) -> Void)?
     var onHotKeySettingsChanged: (() -> Void)?
 
-    let clipboard = ClipboardService()
-    let persistence = PersistenceController()
+    let clipboard: ClipboardService
+    let persistence: PersistenceController
 
-    init() {
+    init(
+        appMetadata: AppMetadata = .current(),
+        updater: AppUpdateController = AppUpdateController()
+    ) {
+        self.appMetadata = appMetadata
+        self.updater = updater
+        self.clipboard = ClipboardService()
+        self.persistence = PersistenceController()
         settings = persistence.loadSettings()
         recentColors = persistence.loadRecentColors()
         paletteHistory = persistence.loadPalettes()

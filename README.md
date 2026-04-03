@@ -50,9 +50,32 @@ bash scripts/build-app.sh
 
 # Package into a DMG
 bash scripts/create-dmg.sh
+
+# Package a Sparkle update ZIP
+bash scripts/create-update-archive.sh
+
+# Generate appcast.xml for published updates
+bash scripts/generate-appcast.sh
 ```
 
-Build output goes to `build/Peeler.app` and `build/Peeler-1.0.0.dmg`.
+Build output goes to `build/Peeler.app`, `build/Peeler-1.0.0.dmg`, and `build/updates/`.
+
+## Update Pipeline
+
+Peeler now uses Sparkle for in-app updates.
+
+1. Generate an EdDSA key pair with Sparkle's `generate_keys` tool.
+2. Replace `SUPublicEDKey` in `Sources/Peeler/Resources/Info.plist` with your public key.
+3. Build the app bundle with `bash scripts/build-app.sh`.
+4. Create the update ZIP with `bash scripts/create-update-archive.sh`.
+5. Run `bash scripts/generate-appcast.sh` to generate `appcast.xml`.
+6. Upload the ZIP and `appcast.xml` to the host used by `SUFeedURL`.
+
+By default `SUFeedURL` points to:
+
+`https://github.com/GithubAnant/peeler/releases/latest/download/appcast.xml`
+
+If you host updates elsewhere, change `SUFeedURL` in `Sources/Peeler/Resources/Info.plist`.
 
 ### App icon
 
