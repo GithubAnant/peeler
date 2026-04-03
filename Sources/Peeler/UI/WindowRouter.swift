@@ -38,10 +38,13 @@ final class WindowRouter {
     }
 
     private func showWindow<V: View>(key: String, title: String, size: NSSize, rootView: V) {
+        NSApp.activate(ignoringOtherApps: true)
+
         if let controller = controllers[key] {
             controller.showWindow(nil)
             controller.window?.orderFrontRegardless()
             controller.window?.makeKeyAndOrderFront(nil)
+            controller.window?.makeMain()
             NSApp.activate(ignoringOtherApps: true)
             return
         }
@@ -52,6 +55,7 @@ final class WindowRouter {
         controller.window?.center()
         controller.window?.orderFrontRegardless()
         controller.window?.makeKeyAndOrderFront(nil)
+        controller.window?.makeMain()
         NSApp.activate(ignoringOtherApps: true)
     }
 
@@ -68,7 +72,10 @@ final class WindowRouter {
         window.contentViewController = hosting
         window.titlebarAppearsTransparent = true
         window.toolbarStyle = .unifiedCompact
-        window.level = .floating
+        window.level = .normal
+        window.hidesOnDeactivate = false
+        window.isExcludedFromWindowsMenu = false
+        window.isMovableByWindowBackground = true
         window.collectionBehavior = [.moveToActiveSpace, .fullScreenAuxiliary]
         return window
     }

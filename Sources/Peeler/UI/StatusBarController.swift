@@ -95,17 +95,23 @@ final class StatusBarController: NSObject {
 
     @objc private func openHistory() {
         closePanel()
-        appState.openHistoryWindow?()
+        DispatchQueue.main.async { [weak appState] in
+            appState?.openHistoryWindow?()
+        }
     }
 
     @objc private func openPalettes() {
         closePanel()
-        appState.openSavedPalettesWindow?()
+        DispatchQueue.main.async { [weak appState] in
+            appState?.openSavedPalettesWindow?()
+        }
     }
 
     @objc private func openSettings() {
         closePanel()
-        appState.openSettingsWindow?()
+        DispatchQueue.main.async { [weak appState] in
+            appState?.openSettingsWindow?()
+        }
     }
 
     @objc private func quit() {
