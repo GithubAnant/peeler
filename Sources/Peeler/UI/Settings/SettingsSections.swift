@@ -28,6 +28,8 @@ struct GeneralSettingsSection: View {
             Toggle("Launch at login", isOn: $launchAtLogin)
             Toggle("Play sound on copy", isOn: $playSound)
         }
+        .controlSize(.small)
+        .font(.system(size: 13))
     }
 }
 
@@ -39,34 +41,86 @@ struct HotkeySettingsSection: View {
     let conflictMessage: String?
 
     var body: some View {
-        GroupCard("Hotkeys") {
-            LabeledContent("Eyedropper hotkey") {
-                HotKeyRecorderField(
-                    title: "Click and press a shortcut",
-                    combination: eyedropperHotkey,
-                    onCommit: onEyedropperChange
-                )
-                .frame(width: 220)
-            }
-            LabeledContent("Screenshot palette hotkey") {
-                HotKeyRecorderField(
-                    title: "Click and press a shortcut",
-                    combination: paletteHotkey,
-                    onCommit: onPaletteChange
-                )
-                .frame(width: 220)
-            }
-
-            Text("Click a field, press a modifier shortcut, and it takes effect immediately.")
-                .font(.caption)
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Hotkeys")
+                .font(.system(size: 11, weight: .semibold))
                 .foregroundStyle(.secondary)
+                .textCase(.uppercase)
+                .padding(.horizontal, 2)
+
+            HotkeyCard(
+                label: "Eyedropper:",
+                combination: eyedropperHotkey,
+                defaultCombination: .eyedropperDefault,
+                onChange: onEyedropperChange
+            )
+
+            HotkeyCard(
+                label: "Screenshot Palette:",
+                combination: paletteHotkey,
+                defaultCombination: .paletteDefault,
+                onChange: onPaletteChange
+            )
 
             if let conflictMessage {
-                Text(conflictMessage)
-                    .font(.caption)
-                    .foregroundStyle(.orange)
+                HStack(spacing: 5) {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .font(.system(size: 10))
+                    Text(conflictMessage)
+                }
+                .font(.caption)
+                .foregroundStyle(.orange)
+                .padding(.horizontal, 2)
             }
         }
+    }
+}
+
+private struct HotkeyCard: View {
+    let label: String
+    let combination: HotKeyCombination
+    let defaultCombination: HotKeyCombination
+    let onChange: (HotKeyCombination) -> Void
+
+    private let shape = RoundedRectangle(cornerRadius: 12, style: .continuous)
+
+    var body: some View {
+        HStack(spacing: 0) {
+            Text(label)
+                .font(.system(size: 14, weight: .medium))
+
+            Spacer()
+
+            HStack(spacing: 6) {
+                HotKeyRecorderField(
+                    title: "Record shortcut",
+                    combination: combination,
+                    onCommit: onChange
+                )
+                .fixedSize()
+
+                Button {
+                    onChange(defaultCombination)
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.system(size: 15))
+                        .foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
+                .help("Reset to default")
+            }
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 14)
+        .background(
+            shape
+                .fill(Color.white.opacity(0.045))
+        )
+        .clipShape(shape)
+        .overlay(
+            shape
+                .strokeBorder(Color.white.opacity(0.035), lineWidth: 0.75)
+        )
     }
 }
 
@@ -88,34 +142,104 @@ struct AppearanceSettingsSection: View {
                 }
             }
         }
+        .controlSize(.small)
+        .font(.system(size: 13))
     }
 }
 
 struct AboutSettingsSection: View {
+    @Binding var automaticallyCheckUpdates: Bool
+    @Binding var automaticallyDownloadUpdates: Bool
+
     private var versionString: String {
         let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0.0"
         let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "1"
         return "Version \(version) (\(build))"
     }
 
-    var body: some View {
-        GroupCard("About and Updates") {
-            HStack(spacing: 12) {
-                BrandBadgeView()
+    private var releaseName: String {
+        "Flying Rabbit"
+    }
 
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Peeler")
-                        .font(.headline)
-                    Text(versionString)
-                        .foregroundStyle(.secondary)
-                }
+    var body: some View {
+        VStack(alignment: .leading, spacing: 22) {
+            GroupCard("Version Info") {
+                SettingsInfoRow(label: "Release name", value: "\(releaseName)  🐇")
+                Divider().overlay(Color.white.opacity(0.05))
+                SettingsInfoRow(label: "Version", value: versionString.replacingOccurrences(of: "Version ", with: ""))
             }
 
-            Button("Check for Updates") {}
-            Button("Support on GitHub") {
+            GroupCard("Software Updates") {
+                SettingsToggleRow(title: "Automatically check for updates", isOn: $automaticallyCheckUpdates)
+                Divider().overlay(Color.white.opacity(0.05))
+                SettingsToggleRow(title: "Automatically download updates", isOn: $automaticallyDownloadUpdates)
+            }
+
+            Button {
                 guard let url = URL(string: "https://github.com/sponsors") else { return }
                 NSWorkspace.shared.open(url)
+            } label: {
+                VStack(spacing: 10) {
+                    Image(systemName: "chevron.left.forwardslash.chevron.right")
+                        .font(.system(size: 26, weight: .semibold))
+                    Text("GitHub")
+                        .font(.system(size: 18, weight: .medium))
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 26)
             }
+            .buttonStyle(.plain)
+            .background(
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .fill(Color.white.opacity(0.045))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .strokeBorder(Color.white.opacity(0.035), lineWidth: 0.75)
+            )
+
+            Spacer(minLength: 0)
+
+            HStack {
+                Spacer()
+                Text("Made with 🫶 by not so boring not.people")
+                    .font(.system(size: 12))
+                    .foregroundStyle(.secondary)
+                Spacer()
+            }
+            .padding(.top, 10)
+        }
+    }
+}
+
+private struct SettingsInfoRow: View {
+    let label: String
+    let value: String
+
+    var body: some View {
+        HStack(alignment: .firstTextBaseline) {
+            Text(label)
+                .font(.system(size: 13, weight: .medium))
+            Spacer()
+            Text(value)
+                .font(.system(size: 13))
+                .foregroundStyle(.secondary)
+        }
+    }
+}
+
+private struct SettingsToggleRow: View {
+    let title: String
+    @Binding var isOn: Bool
+
+    var body: some View {
+        HStack {
+            Text(title)
+                .font(.system(size: 13, weight: .medium))
+            Spacer()
+            Toggle("", isOn: $isOn)
+                .labelsHidden()
+                .controlSize(.small)
         }
     }
 }

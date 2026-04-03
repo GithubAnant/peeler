@@ -24,7 +24,6 @@ struct HotKeyRecorderField: NSViewRepresentable {
 
 final class RecorderView: NSView {
     private let label = NSTextField(labelWithString: "")
-    private let helper = NSTextField(labelWithString: "")
     private var trackingArea: NSTrackingArea?
 
     var title: String = ""
@@ -42,28 +41,22 @@ final class RecorderView: NSView {
         super.init(frame: frameRect)
         translatesAutoresizingMaskIntoConstraints = false
         wantsLayer = true
-        layer?.cornerRadius = 12
+        layer?.cornerRadius = 6
         layer?.masksToBounds = true
 
-        label.font = .monospacedSystemFont(ofSize: 13, weight: .semibold)
-        helper.font = .systemFont(ofSize: 11, weight: .medium)
-        helper.textColor = .secondaryLabelColor
+        label.font = .monospacedSystemFont(ofSize: 12, weight: .medium)
+        label.alignment = .center
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
 
         addSubview(label)
-        addSubview(helper)
-
         label.translatesAutoresizingMaskIntoConstraints = false
-        helper.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            heightAnchor.constraint(equalToConstant: 56),
-            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
-            label.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
-            helper.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
-            helper.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 4),
-            helper.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
-            helper.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            heightAnchor.constraint(equalToConstant: 28),
+            widthAnchor.constraint(greaterThanOrEqualToConstant: 80),
+            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            label.centerYAnchor.constraint(equalTo: centerYAnchor),
         ])
 
         updateAppearance()
@@ -140,20 +133,22 @@ final class RecorderView: NSView {
 
         if isRecording {
             strokeColor = .controlAccentColor
-            fillColor = NSColor.controlAccentColor.withAlphaComponent(0.16)
+            fillColor = NSColor.controlAccentColor.withAlphaComponent(0.14)
+            label.textColor = .controlAccentColor
         } else if isHovered {
-            strokeColor = NSColor.separatorColor.withAlphaComponent(0.9)
+            strokeColor = NSColor.separatorColor.withAlphaComponent(0.8)
             fillColor = NSColor.quaternaryLabelColor.withAlphaComponent(0.12)
+            label.textColor = .labelColor
         } else {
-            strokeColor = NSColor.separatorColor.withAlphaComponent(0.65)
-            fillColor = NSColor.quaternaryLabelColor.withAlphaComponent(0.08)
+            strokeColor = NSColor.separatorColor.withAlphaComponent(0.5)
+            fillColor = NSColor.quaternaryLabelColor.withAlphaComponent(0.06)
+            label.textColor = .secondaryLabelColor
         }
 
         layer?.backgroundColor = fillColor.cgColor
         layer?.borderColor = strokeColor.cgColor
-        layer?.borderWidth = isRecording ? 1.2 : 0.8
+        layer?.borderWidth = isRecording ? 1.5 : 0.75
 
         label.stringValue = isRecording ? "Type shortcut…" : currentCombination.displayString
-        helper.stringValue = isRecording ? "Press Esc to cancel" : title
     }
 }

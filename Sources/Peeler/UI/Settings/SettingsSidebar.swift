@@ -34,8 +34,9 @@ struct SettingsSidebar: View {
         List(SettingsPane.allCases, selection: $selection) { pane in
             Label(pane.title, systemImage: pane.icon)
                 .tag(pane)
-                .font(.system(size: 15, weight: .medium))
-                .padding(.vertical, 4)
+                .font(.system(size: 14, weight: .medium))
+                .imageScale(.medium)
+                .padding(.vertical, 2)
         }
         .listStyle(.sidebar)
         .navigationSplitViewColumnWidth(min: 220, ideal: 240)

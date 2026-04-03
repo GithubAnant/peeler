@@ -12,10 +12,16 @@ struct SettingsWindowView: View {
                 VStack(alignment: .leading, spacing: 22) {
                     HStack {
                         Text(selection.title)
-                            .font(.system(size: 28, weight: .semibold))
+                            .font(.system(size: 25, weight: .semibold))
                         Spacer()
-                        Button("Quit App") {
-                            NSApp.terminate(nil)
+                        if selection == .about {
+                            Button("Check for Updates...") {}
+                                .controlSize(.small)
+                        } else {
+                            Button("Quit App") {
+                                NSApp.terminate(nil)
+                            }
+                            .controlSize(.small)
                         }
                     }
 
@@ -42,10 +48,13 @@ struct SettingsWindowView: View {
                             panelPosition: panelPositionBinding
                         )
                     case .about:
-                        AboutSettingsSection()
+                        AboutSettingsSection(
+                            automaticallyCheckUpdates: automaticallyCheckUpdatesBinding,
+                            automaticallyDownloadUpdates: automaticallyDownloadUpdatesBinding
+                        )
                     }
                 }
-                .padding(28)
+                .padding(24)
                 .frame(maxWidth: .infinity, alignment: .topLeading)
             }
             .background(Color(nsColor: .windowBackgroundColor))

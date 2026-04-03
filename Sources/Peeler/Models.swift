@@ -154,11 +154,44 @@ struct AppSettings: Codable {
     var paletteColorCount: Int = 6
     var launchAtLogin: Bool = false
     var playCopySound: Bool = true
+    var automaticallyCheckUpdates: Bool = true
+    var automaticallyDownloadUpdates: Bool = true
     var theme: AppTheme = .system
     var panelPosition: PanelPlacement = .auto
     var eyedropperHotkey: HotKeyCombination = .eyedropperDefault
     var paletteHotkey: HotKeyCombination = .paletteDefault
     var lastActiveTab: PanelTab = .eyedropper
+
+    enum CodingKeys: String, CodingKey {
+        case preferredFormat
+        case paletteColorCount
+        case launchAtLogin
+        case playCopySound
+        case automaticallyCheckUpdates
+        case automaticallyDownloadUpdates
+        case theme
+        case panelPosition
+        case eyedropperHotkey
+        case paletteHotkey
+        case lastActiveTab
+    }
+
+    init() {}
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        preferredFormat = try container.decodeIfPresent(CopyFormat.self, forKey: .preferredFormat) ?? .hex
+        paletteColorCount = try container.decodeIfPresent(Int.self, forKey: .paletteColorCount) ?? 6
+        launchAtLogin = try container.decodeIfPresent(Bool.self, forKey: .launchAtLogin) ?? false
+        playCopySound = try container.decodeIfPresent(Bool.self, forKey: .playCopySound) ?? true
+        automaticallyCheckUpdates = try container.decodeIfPresent(Bool.self, forKey: .automaticallyCheckUpdates) ?? true
+        automaticallyDownloadUpdates = try container.decodeIfPresent(Bool.self, forKey: .automaticallyDownloadUpdates) ?? true
+        theme = try container.decodeIfPresent(AppTheme.self, forKey: .theme) ?? .system
+        panelPosition = try container.decodeIfPresent(PanelPlacement.self, forKey: .panelPosition) ?? .auto
+        eyedropperHotkey = try container.decodeIfPresent(HotKeyCombination.self, forKey: .eyedropperHotkey) ?? .eyedropperDefault
+        paletteHotkey = try container.decodeIfPresent(HotKeyCombination.self, forKey: .paletteHotkey) ?? .paletteDefault
+        lastActiveTab = try container.decodeIfPresent(PanelTab.self, forKey: .lastActiveTab) ?? .eyedropper
+    }
 
     mutating func normalize() {
         paletteColorCount = min(max(paletteColorCount, 4), 10)
