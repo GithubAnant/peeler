@@ -54,7 +54,9 @@ export function Navbar({ starCount }: NavbarProps) {
           ))}
         </nav>
 
-        <GitHubButton starCount={starCount} />
+        <div className={styles.githubButtonWrapper}>
+          <GitHubButton starCount={starCount} />
+        </div>
       </header>
       <div className={styles.headerSpacer} aria-hidden="true" />
     </>
