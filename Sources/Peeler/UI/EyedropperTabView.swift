@@ -6,9 +6,22 @@ struct EyedropperTabView: View {
     var body: some View {
         VStack(spacing: 12) {
             GroupCard {
+                Button {
+                    appState.triggerEyedropper?()
+                } label: {
+                    Label("Pick Color", systemImage: "eyedropper")
+                        .frame(maxWidth: .infinity)
+                }
+                .keyboardShortcut(.return, modifiers: [])
+                .controlSize(.large)
+                .buttonStyle(.borderedProminent)
+            }
+
+            GroupCard {
                 RoundedRectangle(cornerRadius: 14, style: .continuous)
                     .fill(Color(nsColor: appState.currentColor?.nsColor ?? NSColor(calibratedWhite: 0.34, alpha: 1)))
                     .frame(height: 104)
+                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                     .overlay(alignment: .bottomLeading) {
                         if appState.currentColor == nil {
                             Text("Pick a color to get started")
@@ -19,7 +32,7 @@ struct EyedropperTabView: View {
                     }
                     .overlay(
                         RoundedRectangle(cornerRadius: 14, style: .continuous)
-                            .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                            .strokeBorder(Color.white.opacity(0.05), lineWidth: 0.75)
                     )
 
                 VStack(alignment: .leading, spacing: 6) {
@@ -54,16 +67,6 @@ struct EyedropperTabView: View {
                         }
                     }
                 }
-
-                Button {
-                    appState.triggerEyedropper?()
-                } label: {
-                    Label("Pick Color", systemImage: "eyedropper")
-                        .frame(maxWidth: .infinity)
-                }
-                .keyboardShortcut(.return, modifiers: [])
-                .controlSize(.large)
-                .buttonStyle(.borderedProminent)
             }
 
             GroupCard("Recent Colors") {

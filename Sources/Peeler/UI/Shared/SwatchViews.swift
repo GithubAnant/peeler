@@ -11,7 +11,7 @@ struct SwatchCircle: View {
             .frame(width: size, height: size)
             .overlay(
                 Circle()
-                    .strokeBorder(Color.white.opacity(0.18), lineWidth: 1)
+                    .strokeBorder(Color.white.opacity(0.12), lineWidth: 0.75)
             )
     }
 }
@@ -26,7 +26,7 @@ struct PaletteSwatchTile: View {
                 .frame(height: 76)
                 .overlay(
                     RoundedRectangle(cornerRadius: 12, style: .continuous)
-                        .strokeBorder(Color.white.opacity(0.14), lineWidth: 1)
+                        .strokeBorder(Color.white.opacity(0.08), lineWidth: 0.75)
                 )
 
             Text(hex.uppercased())
@@ -48,7 +48,7 @@ struct ThumbnailPreview: View {
                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                 .overlay(
                     RoundedRectangle(cornerRadius: 8, style: .continuous)
-                        .strokeBorder(Color.white.opacity(0.14), lineWidth: 1)
+                        .strokeBorder(Color.white.opacity(0.08), lineWidth: 0.75)
                 )
         } else {
             RoundedRectangle(cornerRadius: 10, style: .continuous)

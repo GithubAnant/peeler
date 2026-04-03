@@ -7,18 +7,23 @@ struct SavedPalettesView: View {
 
     var body: some View {
         NativeWindowShell("Saved Palettes") {
-            ScrollView {
-                VStack(spacing: 16) {
-                    if appState.savedPalettes.isEmpty {
-                        GroupCard {
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("No saved palettes yet")
-                                    .font(.headline)
-                                Text("Generate a palette from a screen region, give it a name, and it will live here.")
-                                    .foregroundStyle(.secondary)
-                            }
-                        }
-                    } else {
+            if appState.savedPalettes.isEmpty {
+                GroupCard {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("No saved palettes yet")
+                            .font(.headline)
+                        Text("Captured palettes appear in History first. Save one with a name from the Palette tab and it will show up here.")
+                            .foregroundStyle(.secondary)
+                        Text("Flow: capture region -> review palette -> enter name -> Save Palette")
+                            .font(.caption)
+                            .foregroundStyle(.tertiary)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical, 6)
+                }
+            } else {
+                ScrollView {
+                    VStack(spacing: 16) {
                         ForEach(appState.savedPalettes) { palette in
                             GroupCard {
                                 HStack(alignment: .top, spacing: 14) {

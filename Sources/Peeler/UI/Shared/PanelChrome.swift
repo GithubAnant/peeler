@@ -2,25 +2,30 @@ import SwiftUI
 
 struct MacPanelBackground: ViewModifier {
     func body(content: Content) -> some View {
+        let shape = RoundedRectangle(cornerRadius: 18, style: .continuous)
+
         content
             .background(
                 ZStack {
-                    RoundedRectangle(cornerRadius: 18, style: .continuous)
+                    shape
                         .fill(.ultraThinMaterial)
-                    RoundedRectangle(cornerRadius: 18, style: .continuous)
+                    shape
                         .fill(
                             LinearGradient(
                                 colors: [
-                                    Color.white.opacity(0.14),
-                                    Color.white.opacity(0.04),
+                                    Color.white.opacity(0.08),
+                                    Color.white.opacity(0.02),
                                 ],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
                             )
                         )
-                    RoundedRectangle(cornerRadius: 18, style: .continuous)
-                        .strokeBorder(Color.white.opacity(0.1), lineWidth: 1)
                 }
+                .shadow(color: Color.black.opacity(0.18), radius: 14, x: 0, y: 10)
+            )
+            .clipShape(shape)
+            .overlay(
+                shape.strokeBorder(Color.white.opacity(0.05), lineWidth: 0.75)
             )
     }
 }
@@ -41,6 +46,8 @@ struct GroupCard<Content: View>: View {
     }
 
     var body: some View {
+        let shape = RoundedRectangle(cornerRadius: 14, style: .continuous)
+
         VStack(alignment: .leading, spacing: 12) {
             if let title {
                 Text(title)
@@ -54,12 +61,13 @@ struct GroupCard<Content: View>: View {
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(
-            RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .fill(Color.white.opacity(0.07))
+            shape
+                .fill(Color.white.opacity(0.045))
         )
+        .clipShape(shape)
         .overlay(
-            RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .strokeBorder(Color.white.opacity(0.06), lineWidth: 1)
+            shape
+                .strokeBorder(Color.white.opacity(0.035), lineWidth: 0.75)
         )
     }
 }
