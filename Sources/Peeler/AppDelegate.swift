@@ -20,7 +20,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         statusBarController = StatusBarController(
             appState: appState,
             onOpenPanel: { [weak self] in self?.showPanel() },
-            onTogglePanel: { [weak self] in self?.togglePanel() }
+            onTogglePanel: { [weak self] in self?.togglePanel() },
+            onOpenHistory: { [weak self] in self?.windowRouter?.showHistory() },
+            onOpenPalettes: { [weak self] in self?.windowRouter?.showSavedPalettes() },
+            onOpenSettings: { [weak self] in self?.windowRouter?.showSettings() }
         )
 
         appState.triggerEyedropper = { [weak self] in

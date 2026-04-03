@@ -14,7 +14,7 @@ final class WindowRouter {
         showWindow(
             key: "settings",
             title: "Peeler Settings",
-            size: NSSize(width: 460, height: 560),
+            size: NSSize(width: 980, height: 700),
             rootView: SettingsWindowView().environmentObject(appState)
         )
     }

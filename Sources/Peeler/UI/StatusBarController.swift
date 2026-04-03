@@ -5,22 +5,33 @@ import SwiftUI
 final class StatusBarController: NSObject {
     private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     private let popover = NSPopover()
-    private let appState: AppState
     private let onOpenPanel: () -> Void
     private let onTogglePanel: () -> Void
+    private let onOpenHistory: () -> Void
+    private let onOpenPalettes: () -> Void
+    private let onOpenSettings: () -> Void
 
     var statusItemFrameInScreen: NSRect? {
         guard let button = statusItem.button, let window = button.window else { return nil }
         return window.convertToScreen(button.convert(button.bounds, to: nil))
     }
 
-    init(appState: AppState, onOpenPanel: @escaping () -> Void, onTogglePanel: @escaping () -> Void) {
-        self.appState = appState
+    init(
+        appState: AppState,
+        onOpenPanel: @escaping () -> Void,
+        onTogglePanel: @escaping () -> Void,
+        onOpenHistory: @escaping () -> Void,
+        onOpenPalettes: @escaping () -> Void,
+        onOpenSettings: @escaping () -> Void
+    ) {
         self.onOpenPanel = onOpenPanel
         self.onTogglePanel = onTogglePanel
+        self.onOpenHistory = onOpenHistory
+        self.onOpenPalettes = onOpenPalettes
+        self.onOpenSettings = onOpenSettings
         super.init()
         configureStatusItem()
-        configurePopover()
+        configurePopover(appState: appState)
     }
 
     func togglePanel() {
@@ -66,7 +77,7 @@ final class StatusBarController: NSObject {
         button.sendAction(on: [.leftMouseUp, .rightMouseUp])
     }
 
-    private func configurePopover() {
+    private func configurePopover(appState: AppState) {
         popover.behavior = .transient
         popover.animates = true
         popover.contentSize = NSSize(width: 320, height: 468)
@@ -95,22 +106,22 @@ final class StatusBarController: NSObject {
 
     @objc private func openHistory() {
         closePanel()
-        DispatchQueue.main.async { [weak appState] in
-            appState?.openHistoryWindow?()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [onOpenHistory] in
+            onOpenHistory()
         }
     }
 
     @objc private func openPalettes() {
         closePanel()
-        DispatchQueue.main.async { [weak appState] in
-            appState?.openSavedPalettesWindow?()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [onOpenPalettes] in
+            onOpenPalettes()
         }
     }
 
     @objc private func openSettings() {
         closePanel()
-        DispatchQueue.main.async { [weak appState] in
-            appState?.openSettingsWindow?()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [onOpenSettings] in
+            onOpenSettings()
         }
     }
 
