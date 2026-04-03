@@ -40,14 +40,9 @@ final class WindowRouter {
     private func showWindow<V: View>(key: String, title: String, size: NSSize, rootView: V) {
         NSApp.activate(ignoringOtherApps: true)
 
-        if let controller = controllers[key] {
-            applyWindowMetrics(controller.window, size: size)
-            controller.showWindow(nil)
-            controller.window?.orderFrontRegardless()
-            controller.window?.makeKeyAndOrderFront(nil)
-            controller.window?.makeMain()
-            NSApp.activate(ignoringOtherApps: true)
-            return
+        if let existing = controllers[key] {
+            existing.close()
+            controllers.removeValue(forKey: key)
         }
 
         let controller = NSWindowController(window: makeWindow(title: title, size: size, rootView: rootView))
@@ -63,8 +58,11 @@ final class WindowRouter {
 
     private func makeWindow<V: View>(title: String, size: NSSize, rootView: V) -> NSWindow {
         let hosting = NSHostingController(rootView: rootView)
+        hosting.preferredContentSize = size
+
+        let contentRect = NSRect(origin: .zero, size: size)
         let window = NSWindow(
-            contentRect: NSRect(origin: .zero, size: size),
+            contentRect: contentRect,
             styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
             backing: .buffered,
             defer: false
@@ -79,16 +77,17 @@ final class WindowRouter {
         window.isExcludedFromWindowsMenu = false
         window.isMovableByWindowBackground = true
         window.collectionBehavior = [.moveToActiveSpace, .fullScreenAuxiliary]
+        window.setFrame(window.frameRect(forContentRect: contentRect), display: false)
         return window
     }
 
     private func applyWindowMetrics(_ window: NSWindow?, size: NSSize) {
         guard let window else { return }
+        let contentRect = NSRect(origin: .zero, size: size)
+        let frame = window.frameRect(forContentRect: contentRect)
+        window.contentMinSize = size
+        window.minSize = frame.size
         window.setContentSize(size)
-        window.minSize = size
-
-        var frame = window.frame
-        frame.size = size
         window.setFrame(frame, display: true)
     }
 }
