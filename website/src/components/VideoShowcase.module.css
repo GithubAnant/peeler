@@ -45,7 +45,7 @@
 
 @media (max-width: 720px) {
   .showcase {
-    width: min(1300px, calc(100vw - 20px));
+    width: calc(100vw - 20px);
     margin-top: 32px;
   }
 
@@ -57,7 +57,13 @@
   .videoShell {
     border-radius: 0;
     width: 100%;
-    max-width: 1200px;
+    max-width: none;
     margin: 0 auto;
+  }
+
+  .video {
+    width: 100%;
+    height: auto;
+    display: block;
   }
 }

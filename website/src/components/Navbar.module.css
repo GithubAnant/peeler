@@ -16,6 +16,12 @@
   height: 36px;
 }
 
+@media (max-width: 640px) {
+  .headerSpacer {
+    height: 52px;
+  }
+}
+
 .brand {
   display: inline-flex;
   align-items: center;
@@ -47,4 +53,67 @@
 
 .githubButtonWrapper {
   justify-self: end;
+}
+
+.mobileToggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.82);
+  cursor: pointer;
+}
+
+.mobileMenu {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #050505;
+  padding: 24px;
+  display: grid;
+  gap: 24px;
+  z-index: 29;
+}
+
+.mobileNav {
+  display: grid;
+  gap: 16px;
+}
+
+.mobileNav a {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 1rem;
+}
+
+.mobileGitHub {
+  margin-top: 8px;
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: 10px 16px 12px;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .brandText {
+    font-size: 0.9rem;
+  }
+
+  .githubButtonWrapper {
+    display: none;
+  }
+
+  .mobileToggle {
+    display: flex;
+  }
 }

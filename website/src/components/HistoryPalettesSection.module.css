@@ -98,8 +98,8 @@
 
 @media (max-width: 640px) {
   .section {
-    width: min(1120px, calc(100vw - 20px));
-    margin-top: 72px;
+    width: calc(100vw - 32px);
+    margin: 72px 16px 0;
   }
 
   .headingWrap {
@@ -107,15 +107,28 @@
   }
 
   .card {
-    padding: 28px 20px 24px;
+    padding: 24px 16px 20px;
+    min-height: unset;
   }
 
   .cardTitle {
-    margin-top: 48px;
-    font-size: 1.5rem;
+    margin-top: 36px;
+    font-size: 1.4rem;
   }
 
   .itemList {
-    margin-top: 28px;
+    margin-top: 24px;
+  }
+
+  .item {
+    padding: 14px 0 16px;
+  }
+
+  .itemTitle {
+    font-size: 0.82rem;
+  }
+
+  .itemDescription {
+    font-size: 0.78rem;
   }
 }

@@ -20,6 +20,23 @@
   font-size: 0.7rem;
   color: #e0e0e0;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.copyButton {
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .terminalContent {
+    padding: 8px 10px;
+  }
+
+  .terminalContent code {
+    font-size: 0.6rem;
+  }
 }
 
 .copyButton {
