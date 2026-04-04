@@ -54,7 +54,7 @@ export function VideoFeatureCard() {
     <section className={styles.section} aria-label="Saved palettes feature">
       <div className={styles.headingWrap}>
         <h2 className={styles.heading}>
-          Turn any region into a<br />usable color system.
+          Build your own color<br />library over time.
         </h2>
       </div>
 

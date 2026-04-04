@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Sans, Inter, Syne } from "next/font/google";
+import { Instrument_Sans, Syne } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import "./globals.css";
 
@@ -15,11 +16,7 @@ const bodyFont = Instrument_Sans({
   weight: ["400", "500", "600", "700"],
 });
 
-const cardFont = Inter({
-  variable: "--font-card",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+const cardFont = GeistSans;
 
 const siteUrl = new URL("https://peeler.anants.studio");
 const siteTitle = "Peeler | Fast color picking for macOS";
@@ -110,7 +107,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${displayFont.variable} ${bodyFont.variable} ${cardFont.variable}`}
+      className={`${displayFont.variable} ${bodyFont.variable} ${cardFont.variable} ${cardFont.className}`}
     >
       <head>
         <script

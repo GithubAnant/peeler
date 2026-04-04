@@ -1,58 +1,63 @@
-import Image from "next/image";
 import styles from "./PaletteFeatureCard.module.css";
 
-const palettePlaceholder = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
-  <svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="1200" height="900" fill="#111111"/>
-    <rect width="1200" height="900" fill="url(#bg)"/>
-    <circle cx="240" cy="210" r="220" fill="#F26A6A" fill-opacity="0.46"/>
-    <circle cx="912" cy="248" r="250" fill="#7B8CFF" fill-opacity="0.5"/>
-    <circle cx="602" cy="640" r="310" fill="#F5C98B" fill-opacity="0.34"/>
-    <rect x="110" y="526" width="980" height="190" rx="28" fill="#090909" fill-opacity="0.86" stroke="rgba(255,255,255,0.12)"/>
-    <rect x="150" y="566" width="126" height="108" rx="18" fill="#FF8A65"/>
-    <rect x="294" y="566" width="126" height="108" rx="18" fill="#FFD166"/>
-    <rect x="438" y="566" width="126" height="108" rx="18" fill="#7BD389"/>
-    <rect x="582" y="566" width="126" height="108" rx="18" fill="#59C3C3"/>
-    <rect x="726" y="566" width="126" height="108" rx="18" fill="#7E6BFF"/>
-    <rect x="870" y="566" width="180" height="108" rx="18" fill="#141414"/>
-    <path d="M906 621H1014" stroke="#2B2B2B" stroke-width="10" stroke-linecap="round"/>
-    <path d="M906 650H984" stroke="#2B2B2B" stroke-width="10" stroke-linecap="round"/>
-    <defs>
-      <linearGradient id="bg" x1="84" y1="96" x2="1078" y2="808" gradientUnits="userSpaceOnUse">
-        <stop stop-color="#FFE6C7"/>
-        <stop offset="0.28" stop-color="#FFB4A2"/>
-        <stop offset="0.58" stop-color="#8AA8FF"/>
-        <stop offset="1" stop-color="#111111"/>
-      </linearGradient>
-    </defs>
-  </svg>
-`)}`;
-
-const paletteBullets = [
-  "Extract dominant colors from any selected area.",
-  "Save palettes for later comparison and reuse.",
-  "Export clean sets for CSS, Tailwind, or design handoff.",
+const paletteFeatureItems = [
+  {
+    title: "Extract colors",
+    description: "Capture any region on screen and extract dominant colors.",
+  },
+  {
+    title: "Smart balancing",
+    description: "Peeler automatically creates a balanced, harmonious palette.",
+  },
+  {
+    title: "One-click export",
+    description: "Export to CSS, Tailwind, SwiftUI, or your favorite format.",
+  },
+  {
+    title: "Save & reuse",
+    description: "Keep palettes for later comparison or reference.",
+  },
 ];
+
+function EyedropperIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M15.154 3.338a1.375 1.375 0 0 1 1.941 1.941l-7.616 7.616a2.446 2.446 0 0 0-.563.836l-.275 1.107a.5.5 0 0 1-.457.457l-1.107.275a2.445 2.445 0 0 0-.836.563l-.324.324a.75.75 0 0 1-1.06 0l-2.064-2.064a.75.75 0 0 1 0-1.06l7.616-7.616a.75.75 0 0 1 1.06 0l.324.324a2.445 2.445 0 0 0 .563.836l1.107.275a.5.5 0 0 1 .457.457l.275 1.107a2.446 2.446 0 0 0 .836.563l.324.324a.75.75 0 0 1 0 1.06l-2.064 2.064a.75.75 0 0 1-1.06 0l-.324-.324a2.445 2.445 0 0 0-.836-.563l-1.107-.275a.5.5 0 0 1-.457-.457l-.275-1.107a2.446 2.446 0 0 0-.563-.836l-.324-.324Z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
 
 export function PaletteFeatureCard() {
   return (
     <section className={styles.section} aria-label="Palette extraction feature">
-      <article className={styles.card}>
-        <div className={styles.copy}>
-          <p className={styles.eyebrow}>Palette Extraction</p>
-          <h2 className={styles.title}>
-            Turn any region into a usable color system.
-          </h2>
-          <p className={styles.description}>
-            Capture a slice of the screen and let Peeler build a balanced
-            palette you can save, revisit, and export.
-          </p>
+      <div className={styles.headingWrap}>
+        <h2 className={styles.heading}>
+          Extract colors from<br />any region on screen.
+        </h2>
+      </div>
 
-          <ul className={styles.bullets}>
-            {paletteBullets.map((item) => (
-              <li key={item}>{item}</li>
+      <article className={styles.card}>
+        <div className={styles.textContent}>
+          <div className={styles.iconWrap}>
+            <EyedropperIcon />
+          </div>
+          <h3 className={styles.title}>Palette Extraction</h3>
+
+          <div className={styles.featureList}>
+            {paletteFeatureItems.map((item) => (
+              <div key={item.title} className={styles.featureItem}>
+                <p className={styles.featureTitle}>{item.title}</p>
+                <p className={styles.featureDescription}>{item.description}</p>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
 
         <video
