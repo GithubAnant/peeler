@@ -27,7 +27,7 @@ A lightweight macOS menu bar app for picking colors and extracting palettes from
 
 ## Install
 
-[**Download Peeler**](https://github.com/GithubAnant/peeler/releases/latest/download/Peeler-1.0.4.dmg)
+[**Download Peeler**](https://github.com/GithubAnant/peeler/releases/latest/download/Peeler-1.0.5.dmg)
 
 Or go to the [Releases](https://github.com/GithubAnant/peeler/releases) page and grab the `.dmg` file from the latest release — that's the only file you need. You can safely ignore the other files.
 
