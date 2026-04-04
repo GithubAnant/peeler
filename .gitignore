@@ -8,5 +8,6 @@ DerivedData/
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
 .netrc
 needed.md
+ai-needed.md
 PRD.md
 .vscode/*
