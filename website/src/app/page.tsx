@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
+import { PaletteFeatureCard } from "@/components/PaletteFeatureCard";
+import { HistoryPalettesSection } from "@/components/HistoryPalettesSection";
+import { VideoFeatureCard } from "@/components/VideoFeatureCard";
 import { Footer } from "@/components/Footer";
 import styles from "./page.module.css";
 
@@ -20,6 +23,9 @@ export default function Home() {
     <main className={styles.page}>
       <Navbar starCount={starCount} />
       <Hero />
+      <PaletteFeatureCard />
+      <HistoryPalettesSection />
+      <VideoFeatureCard />
       <Footer />
     </main>
   );

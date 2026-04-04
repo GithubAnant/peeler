@@ -1,0 +1,57 @@
+.showcase {
+  width: min(1300px, calc(100vw - 32px));
+  margin-top: 44px;
+}
+
+.frame {
+  position: relative;
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0;
+  background: transparent;
+  box-shadow:
+    0 40px 120px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.videoShell {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0;
+  background: transparent;
+  aspect-ratio: 16 / 9;
+}
+
+.videoShell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.12), transparent 18%, transparent 82%, rgba(0, 0, 0, 0.28)),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.18), transparent 12%, transparent 88%, rgba(0, 0, 0, 0.18));
+}
+
+.video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 720px) {
+  .showcase {
+    width: min(1300px, calc(100vw - 20px));
+    margin-top: 32px;
+  }
+
+  .frame {
+    padding: 6px;
+    border-radius: 0;
+  }
+
+  .videoShell {
+    border-radius: 0;
+    aspect-ratio: 16 / 9;
+  }
+}

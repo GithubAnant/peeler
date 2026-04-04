@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import { TerminalBox } from "@/components/TerminalBox";
 import { DownloadButton } from "@/components/DownloadButton";
+import { VideoShowcase } from "@/components/VideoShowcase";
 import styles from "./Hero.module.css";
 
 const heroLines = [
@@ -48,6 +49,7 @@ export function Hero() {
       <DownloadButton />
       <p className={styles.downloadNote}>Since Peeler is not notarized, macOS may block it on first launch. To fix this, run:</p>
       <TerminalBox />
+      <VideoShowcase />
     </section>
   );
 }

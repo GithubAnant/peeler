@@ -64,7 +64,7 @@ export function Footer() {
 
         <div className={styles.footerSocials} aria-label="Social links">
           <a
-            href="https://x.com/GithubAnant"
+            href="https://x.com/anant_hq"
             target="_blank"
             rel="noreferrer"
             aria-label="Peeler on X"

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Sans, Syne } from "next/font/google";
+import { Instrument_Sans, Inter, Syne } from "next/font/google";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import "./globals.css";
 
@@ -11,6 +11,12 @@ const displayFont = Syne({
 
 const bodyFont = Instrument_Sans({
   variable: "--font-body",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const cardFont = Inter({
+  variable: "--font-card",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
@@ -102,7 +108,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${displayFont.variable} ${bodyFont.variable}`}>
+    <html
+      lang="en"
+      className={`${displayFont.variable} ${bodyFont.variable} ${cardFont.variable}`}
+    >
       <head>
         <script
           src="https://cdn.databuddy.cc/databuddy.js"

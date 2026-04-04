@@ -4,7 +4,7 @@ import styles from "./Navbar.module.css";
 
 const navigationLinks = [
   {
-    href: "https://x.com/GithubAnant",
+    href: "https://x.com/anant_hq",
     label: "Twitter",
   },
   {

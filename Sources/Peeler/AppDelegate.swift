@@ -16,6 +16,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         appState.updater.start()
+        checkScreenPermissionOnLaunch()
         hudController = HUDPanelController()
         windowRouter = WindowRouter(appState: appState)
         statusBarController = StatusBarController(
@@ -124,10 +125,37 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         return true
     }
 
+    private func checkScreenPermissionOnLaunch() {
+        guard !permissionService.hasPermission() else { return }
+
+        let alert = NSAlert()
+        alert.messageText = "Screen Recording Permission Needed"
+        alert.informativeText = """
+        Peeler doesn't have Screen Recording access. \
+        If you recently reinstalled or updated the app, macOS may have \
+        invalidated the old permission — even if it still appears enabled \
+        in System Settings.\n\n\
+        To fix this, open Privacy & Security → Screen Recording, toggle \
+        Peeler off, then back on (or remove and re-add it).
+        """
+        alert.addButton(withTitle: "Open Privacy Settings")
+        alert.addButton(withTitle: "Later")
+
+        if alert.runModal() == .alertFirstButtonReturn {
+            permissionService.openPrivacySettings()
+        }
+    }
+
     private func presentPermissionAlert() {
         let alert = NSAlert()
         alert.messageText = "Screen Recording Access Required"
-        alert.informativeText = "Peeler needs Screen Recording permission to sample colors and capture palettes from your display."
+        alert.informativeText = """
+        Peeler needs Screen Recording permission to sample colors and \
+        capture palettes from your display.\n\n\
+        If you already granted permission but it's not working, try \
+        toggling Peeler off and back on in System Settings → Privacy \
+        & Security → Screen Recording.
+        """
         alert.addButton(withTitle: "Open Privacy Settings")
         alert.addButton(withTitle: "Quit Peeler")
         alert.addButton(withTitle: "Cancel")
