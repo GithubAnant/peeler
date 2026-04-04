@@ -1,7 +1,7 @@
 .hero {
   display: grid;
   justify-items: center;
-  padding: 46px 0 56px;
+  padding: 100px 0 56px;
   text-align: center;
 }
 
@@ -9,7 +9,7 @@
   display: grid;
   gap: 2px;
   font-family: var(--font-display), sans-serif;
-  font-size: clamp(2.2rem, 6vw, 3.8rem);
+  font-size: clamp(2.2rem, 6vw, 3.6rem);
   line-height: 0.95;
   letter-spacing: -0.075em;
 }

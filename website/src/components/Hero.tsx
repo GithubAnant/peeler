@@ -5,8 +5,7 @@ import styles from "./Hero.module.css";
 
 const heroLines = [
   ["Pick", "colors", "from"],
-  ["your", "screen", "in"],
-  ["seconds"],
+  ["your", "screen", "in", "seconds"],
 ];
 
 export function Hero() {
