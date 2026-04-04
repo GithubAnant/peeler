@@ -9,9 +9,9 @@
     <key>CFBundleDisplayName</key>
     <string>Peeler</string>
     <key>CFBundleVersion</key>
-    <string>5</string>
+    <string>6</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.0.4</string>
+    <string>1.0.5</string>
     <key>PeelerReleaseName</key>
     <string>Ikea Lamp</string>
     <key>PeelerHomepageURL</key>
