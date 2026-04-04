@@ -54,54 +54,36 @@ W, H = ${WIN_W} * 2, ${WIN_H} * 2  # @2x for Retina
 img = Image.new('RGBA', (W, H))
 draw = ImageDraw.Draw(img)
 
-# Gradient background — dark charcoal to slightly lighter
+# Whitish gradient background — light gray to white
 for y in range(H):
     t = y / H
-    r = int(30 + t * 15)
-    g = int(30 + t * 15)
-    b = int(35 + t * 18)
+    r = int(245 + t * 10)
+    g = int(245 + t * 10)
+    b = int(250 + t * 5)
     draw.line([(0, y), (W, y)], fill=(r, g, b, 255))
 
-# Subtle bottom strip
+# Subtle bottom strip - slightly darker
 strip_h = int(H * 0.12)
 for y in range(H - strip_h, H):
     t = (y - (H - strip_h)) / strip_h
-    r = int(25 + t * 5)
-    g = int(25 + t * 5)
-    b = int(28 + t * 8)
+    r = int(230 + t * 15)
+    g = int(230 + t * 15)
+    b = int(235 + t * 15)
     draw.line([(0, y), (W, y)], fill=(r, g, b, 255))
 
 # Draw an arrow from app icon area to Applications icon area
-arrow_y = ${APP_Y} * 2
-arrow_x1 = ${APP_X} * 2 + 140  # right of app icon
-arrow_x2 = ${APPS_X} * 2 - 140  # left of Applications icon
-mid_y = arrow_y
-
-# Arrow shaft
-shaft_thickness = 6
-for dy in range(-shaft_thickness, shaft_thickness + 1):
-    draw.line([(arrow_x1, mid_y + dy), (arrow_x2 - 30, mid_y + dy)],
-              fill=(120, 120, 130, 180))
-
-# Arrow head
-head_size = 36
-for i in range(head_size):
-    t = i / head_size
-    top = int(mid_y - head_size + t * head_size)
-    bot = int(mid_y + head_size - t * head_size)
-    x = int(arrow_x2 - 30 + i)
-    draw.line([(x, top), (x, bot)], fill=(120, 120, 130, 180))
+# REMOVED - user doesn't want arrow
 
 # Drag hint text
 try:
-    font = ImageFont.truetype('/System/Library/Fonts/Helvetica.ttc', 28)
+    font = ImageFont.truetype('/System/Library/Fonts/Helvetica.ttc', 32)
 except:
     font = ImageFont.load_default()
 
-text = 'Drag to install'
+text = 'Drag to Applications'
 bbox = draw.textbbox((0, 0), text, font=font)
 tw = bbox[2] - bbox[0]
-draw.text(((W - tw) // 2, H - strip_h + 20), text, fill=(140, 140, 150, 200), font=font)
+draw.text(((W - tw) // 2, H - strip_h + 25), text, fill=(100, 100, 110, 230), font=font)
 
 img.save('${BG_DIR}/background.png')
 print('Background generated with Pillow')
