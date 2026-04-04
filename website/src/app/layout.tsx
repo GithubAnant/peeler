@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Instrument_Sans, Syne } from "next/font/google";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import "./globals.css";
@@ -15,28 +15,84 @@ const bodyFont = Instrument_Sans({
   weight: ["400", "500", "600", "700"],
 });
 
+const siteUrl = new URL("https://peeler.anants.studio");
+const siteTitle = "Peeler | Fast color picking for macOS";
+const siteDescription =
+  "Pick any color from your screen, extract palettes from a region, and copy results in the formats you actually use.";
+const socialDescription =
+  "A lightweight open-source macOS menu bar app for color picking and palette extraction.";
+const socialImage = {
+  url: "/logo.png",
+  width: 1024,
+  height: 1024,
+  alt: "Peeler app logo",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0b0d12",
+  colorScheme: "dark",
+};
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://peeler.anants.studio"),
-  title: "Peeler | Fast color picking for macOS",
-  description:
-    "Pick any color from your screen, extract palettes from a region, and copy results in the formats you actually use.",
+  metadataBase: siteUrl,
+  title: {
+    default: siteTitle,
+    template: "%s | Peeler",
+  },
+  description: siteDescription,
   applicationName: "Peeler",
+  authors: [{ name: "Anant Singhal", url: "https://anants.studio" }],
+  creator: "Anant Singhal",
+  publisher: "Anant Singhal",
+  keywords: [
+    "Peeler",
+    "macOS color picker",
+    "palette extractor",
+    "eyedropper app",
+    "design tools",
+    "developer tools",
+    "open source mac app",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  manifest: "/manifest.webmanifest",
+  category: "technology",
+  referrer: "origin-when-cross-origin",
+  formatDetection: {
+    telephone: false,
+    address: false,
+    email: false,
+  },
+  appleWebApp: {
+    capable: true,
+    title: "Peeler",
+    statusBarStyle: "black-translucent",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
+    icon: [{ url: "/logo.png", type: "image/png", sizes: "1024x1024" }],
+    shortcut: ["/logo.png"],
+    apple: [{ url: "/logo.png", sizes: "1024x1024", type: "image/png" }],
   },
   openGraph: {
-    title: "Peeler | Fast color picking for macOS",
-    description:
-      "A lightweight macOS menu bar app for picking colors and extracting palettes from your screen.",
+    title: siteTitle,
+    description: socialDescription,
     siteName: "Peeler",
+    url: siteUrl,
     type: "website",
+    locale: "en_US",
+    images: [socialImage],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Peeler | Fast color picking for macOS",
-    description:
-      "A lightweight macOS menu bar app for picking colors and extracting palettes from your screen.",
+    title: siteTitle,
+    description: socialDescription,
+    creator: "@GithubAnant",
+    images: [socialImage],
   },
 };
 
@@ -48,7 +104,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${displayFont.variable} ${bodyFont.variable}`}>
       <head>
-        <link rel="icon" href="/logo.png" />
         <script
           src="https://cdn.databuddy.cc/databuddy.js"
           data-client-id="c363dba9-3155-4a9f-87f5-69b47a928b59"
