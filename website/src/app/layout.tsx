@@ -25,10 +25,10 @@ const siteDescription =
 const socialDescription =
   "A lightweight open-source macOS menu bar app for color picking and palette extraction.";
 const socialImage = {
-  url: "/logo.png",
-  width: 1024,
-  height: 1024,
-  alt: "Peeler app logo",
+  url: "/twitter-card.png",
+  width: 1200,
+  height: 675,
+  alt: "Peeler color picker app preview",
 };
 
 export const viewport: Viewport = {
