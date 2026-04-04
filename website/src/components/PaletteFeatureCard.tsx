@@ -40,10 +40,12 @@ export function PaletteFeatureCard() {
       <article className={styles.card}>
         <div className={styles.copy}>
           <p className={styles.eyebrow}>Palette Extraction</p>
-          <h2 className={styles.title}>Turn any region into a usable color system.</h2>
+          <h2 className={styles.title}>
+            Turn any region into a usable color system.
+          </h2>
           <p className={styles.description}>
-            Capture a slice of the screen and let Peeler build a balanced palette you can save,
-            revisit, and export.
+            Capture a slice of the screen and let Peeler build a balanced
+            palette you can save, revisit, and export.
           </p>
 
           <ul className={styles.bullets}>
@@ -53,31 +55,16 @@ export function PaletteFeatureCard() {
           </ul>
         </div>
 
-        <div className={styles.visual}>
-          <Image
-            src={palettePlaceholder}
-            alt="Placeholder preview for palette extraction"
-            width={1200}
-            height={900}
-            unoptimized
-            className={styles.placeholderImage}
-          />
-
-          <div className={styles.palettePanel} aria-hidden="true">
-            <div className={styles.panelHeader}>
-              <span className={styles.panelTitle}>Selected palette</span>
-              <span className={styles.panelMeta}>5 colors</span>
-            </div>
-
-            <div className={styles.swatches}>
-              <span style={{ background: "#FF8A65" }} />
-              <span style={{ background: "#FFD166" }} />
-              <span style={{ background: "#7BD389" }} />
-              <span style={{ background: "#59C3C3" }} />
-              <span style={{ background: "#7E6BFF" }} />
-            </div>
-          </div>
-        </div>
+        <video
+          src="/demos/demo-02.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          controls={false}
+          preload="none"
+          className={styles.visual}
+        />
       </article>
     </section>
   );

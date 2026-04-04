@@ -3,16 +3,8 @@
 import { useState } from "react";
 import styles from "./VideoShowcase.module.css";
 
-const demoVideos = [
-  "/demos/demo-01.mp4",
-  "/demos/demo-02.mp4",
-  "/demos/demo-03.mp4",
-];
-
 export function VideoShowcase() {
-  const [videoSrc] = useState(
-    () => demoVideos[Math.floor(Math.random() * demoVideos.length)],
-  );
+  const [videoSrc] = useState("/demos/demo-01.mp4");
 
   return (
     <section className={styles.showcase} aria-label="Peeler demo video">
@@ -26,6 +18,7 @@ export function VideoShowcase() {
             loop
             playsInline
             controls={false}
+            preload="none"
           />
         </div>
       </div>
