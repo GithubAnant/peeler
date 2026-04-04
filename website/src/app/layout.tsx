@@ -21,6 +21,10 @@ export const metadata: Metadata = {
   description:
     "Pick any color from your screen, extract palettes from a region, and copy results in the formats you actually use.",
   applicationName: "Peeler",
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+  },
   openGraph: {
     title: "Peeler | Fast color picking for macOS",
     description:
@@ -44,6 +48,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${displayFont.variable} ${bodyFont.variable}`}>
       <head>
+        <link rel="icon" href="/logo.png" />
         <script
           src="https://cdn.databuddy.cc/databuddy.js"
           data-client-id="c363dba9-3155-4a9f-87f5-69b47a928b59"

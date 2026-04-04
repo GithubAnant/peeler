@@ -7,6 +7,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 UPDATES_DIR="${1:-$PROJECT_ROOT/build/updates}"
+INFO_PLIST="$PROJECT_ROOT/Sources/Peeler/Resources/Info.plist"
 
 if [[ ! -d "$UPDATES_DIR" ]]; then
     echo "ERROR: Updates directory not found at $UPDATES_DIR"
@@ -24,9 +25,21 @@ else
     exit 1
 fi
 
+SU_FEED_URL="$(/usr/libexec/PlistBuddy -c 'Print :SUFeedURL' "$INFO_PLIST")"
+DOWNLOAD_URL_PREFIX="${SPARKLE_DOWNLOAD_URL_PREFIX:-${SU_FEED_URL%/*}/}"
+
+if [[ -z "$DOWNLOAD_URL_PREFIX" ]]; then
+    echo "ERROR: Could not determine download URL prefix."
+    echo "       Set SUFeedURL in Info.plist or pass SPARKLE_DOWNLOAD_URL_PREFIX."
+    exit 1
+fi
+
 echo "==> Generating Sparkle appcast in $UPDATES_DIR..."
-"$GENERATE_APPCAST_BIN" "$UPDATES_DIR"
+"$GENERATE_APPCAST_BIN" \
+    --download-url-prefix "$DOWNLOAD_URL_PREFIX" \
+    "$UPDATES_DIR"
 
 echo ""
 echo "==> Appcast generated."
-echo "    Publish appcast.xml alongside your ZIP archives at the SUFeedURL location."
+echo "    Publish appcast.xml, ZIP files, and any delta files to:"
+echo "    $DOWNLOAD_URL_PREFIX"
