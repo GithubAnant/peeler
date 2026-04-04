@@ -47,7 +47,7 @@ export function Hero() {
       </p>
 
       <DownloadButton />
-      <p className={styles.downloadNote}>After downloading, run this in Terminal to bypass macOS security and launch:</p>
+      <p className={styles.downloadNote}>Since Peeler is not notarized, macOS may block it on first launch. To fix this, run:</p>
       <TerminalBox />
     </section>
   );
