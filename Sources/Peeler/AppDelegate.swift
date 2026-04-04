@@ -16,7 +16,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         appState.updater.start()
-        checkScreenPermissionOnLaunch()
         hudController = HUDPanelController()
         windowRouter = WindowRouter(appState: appState)
         statusBarController = StatusBarController(
@@ -123,27 +122,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             return false
         }
         return true
-    }
-
-    private func checkScreenPermissionOnLaunch() {
-        guard !permissionService.hasPermission() else { return }
-
-        let alert = NSAlert()
-        alert.messageText = "Screen Recording Permission Needed"
-        alert.informativeText = """
-        Peeler doesn't have Screen Recording access. \
-        If you recently reinstalled or updated the app, macOS may have \
-        invalidated the old permission — even if it still appears enabled \
-        in System Settings.\n\n\
-        To fix this, open Privacy & Security → Screen Recording, toggle \
-        Peeler off, then back on (or remove and re-add it).
-        """
-        alert.addButton(withTitle: "Open Privacy Settings")
-        alert.addButton(withTitle: "Later")
-
-        if alert.runModal() == .alertFirstButtonReturn {
-            permissionService.openPrivacySettings()
-        }
     }
 
     private func presentPermissionAlert() {
