@@ -24,6 +24,28 @@
   align-items: start;
 }
 
+.grid > * {
+  aspect-ratio: 16 / 10;
+}
+
+.grid img,
+.grid [style*="width"] {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
+.grid > * {
+  aspect-ratio: 16 / 10;
+}
+
+.grid img,
+.grid [style*="width"] {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
 .card {
   min-height: 640px;
   padding: 42px 44px 36px;
