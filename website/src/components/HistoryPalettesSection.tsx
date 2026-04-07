@@ -60,7 +60,7 @@ function HistoryImage() {
       width={520}
       height={320}
       unoptimized
-      style={{ width: '100%', height: 'auto' }}
+      className={styles.gridImage}
     />
   );
 }

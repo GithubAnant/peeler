@@ -34,16 +34,7 @@
 .card > Image,
 .card > video {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.card > Image {
-  aspect-ratio: 16 / 10;
-}
-
-.card > Image {
-  aspect-ratio: 16 / 10;
+  height: auto;
 }
 
 .textContent {
