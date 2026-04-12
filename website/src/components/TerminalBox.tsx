@@ -3,8 +3,11 @@
 import { useState } from "react";
 import styles from "./TerminalBox.module.css";
 
-export function TerminalBox() {
-  const command = "xattr -rd com.apple.quarantine /Applications/Peeler.app";
+export function TerminalBox({
+  command = "xattr -rd com.apple.quarantine /Applications/Peeler.app"
+}: {
+  command?: string;
+}) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {

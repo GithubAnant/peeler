@@ -46,7 +46,12 @@ export function Hero() {
         Peeler is a lightweight open-source macOS app for color picking and palette extraction.
       </p>
 
-      <DownloadButton />
+      <div className={styles.actionGroup}>
+        <DownloadButton />
+        <span className={styles.actionDivider}>OR</span>
+        <TerminalBox command="curl -fsSL https://peeler.anants.studio/install.sh | sh" />
+      </div>
+
       <p className={styles.downloadNote}>Since Peeler is not notarized, macOS may block it on first launch. To fix this, run:</p>
       <TerminalBox />
       <VideoShowcase />
