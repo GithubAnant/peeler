@@ -5,7 +5,7 @@ export function DownloadButton() {
   return (
     <a
       className={styles.downloadButton}
-      href="https://github.com/GithubAnant/peeler/releases/latest/download/Peeler-1.0.6.dmg"
+      href="https://github.com/GithubAnant/peeler/releases/latest/download/Peeler-1.0.7.dmg"
       target="_blank"
       rel="noreferrer"
     >

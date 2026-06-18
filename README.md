@@ -5,7 +5,7 @@
 </p>
 <p align="center">
   <!-- <a href="https://github.com/GithubAnant/peeler/releases/latest"><img src="https://img.shields.io/github/downloads/GithubAnant/peeler/total?style=for-the-badge" alt="Downloads"></a> -->
-  <a href="https://github.com/GithubAnant/peeler/releases"><img src="https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge" alt="Version"></a>
+  <a href="https://github.com/GithubAnant/peeler/releases"><img src="https://img.shields.io/badge/version-1.0.7-blue?style=for-the-badge" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-red?style=for-the-badge" alt="MIT License"></a>
   <a href="#requirements"><img src="https://img.shields.io/badge/platform-macOS%2013.0+-darkgreen?style=for-the-badge" alt="Platform"></a>
 </p>
@@ -27,7 +27,7 @@ A lightweight macOS menu bar app for picking colors and extracting palettes from
 
 ## Install
 
-[**Download Peeler**](https://github.com/GithubAnant/peeler/releases/latest/download/Peeler-1.0.6.dmg)
+[**Download Peeler**](https://github.com/GithubAnant/peeler/releases/latest/download/Peeler-1.0.7.dmg)
 
 Or go to the [Releases](https://github.com/GithubAnant/peeler/releases) page and grab the `.dmg` file from the latest release — that's the only file you need. You can safely ignore the other files.
 
@@ -69,7 +69,7 @@ bash scripts/create-update-archive.sh
 bash scripts/generate-appcast.sh
 ```
 
-Build output goes to `build/Peeler.app`, `build/Peeler-1.0.0.dmg`, and `build/updates/`.
+Build output goes to `build/Peeler.app`, `build/Peeler-<version>.dmg`, and `build/updates/`.
 
 ## Update Pipeline
 

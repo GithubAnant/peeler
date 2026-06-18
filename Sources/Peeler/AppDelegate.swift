@@ -13,6 +13,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusBarController: StatusBarController?
     private var windowRouter: WindowRouter?
     private var hudController: HUDPanelController?
+    private var pendingPaletteCaptureTask: Task<Void, Never>?
+    private var isPaletteCaptureActive = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         appState.updater.start()
@@ -64,6 +66,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func registerHotKeys() {
         if appState.settings.eyedropperHotkey == appState.settings.paletteHotkey {
+            hotKeyController.unregister(kind: .eyedropper)
+            hotKeyController.unregister(kind: .palette)
             appState.hotKeyConflictMessage = "Eyedropper and palette shortcuts cannot use the same key combination."
             return
         }
@@ -104,11 +108,24 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func startPaletteCapture() {
+        guard !isPaletteCaptureActive, pendingPaletteCaptureTask == nil else { return }
         guard ensureScreenPermission() else { return }
         statusBarController?.closePanel()
 
-        Task { @MainActor [weak self] in
+        isPaletteCaptureActive = true
+        pendingPaletteCaptureTask = Task { @MainActor [weak self] in
             guard let self else { return }
+            try? await Task.sleep(nanoseconds: 150_000_000)
+            self.pendingPaletteCaptureTask = nil
+            guard !Task.isCancelled else {
+                self.isPaletteCaptureActive = false
+                return
+            }
+
+            defer {
+                self.isPaletteCaptureActive = false
+            }
+
             guard let image = screenshotService.captureInteractiveRegion() else { return }
             let colors = await paletteExtractor.extractPalette(from: image, count: appState.settings.paletteColorCount)
             appState.handlePaletteCapture(image: image, colors: colors)
