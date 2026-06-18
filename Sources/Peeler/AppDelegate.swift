@@ -98,7 +98,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func startEyedropper() {
-        guard ensureScreenPermission() else { return }
+        // NSColorSampler runs in a trusted system process and does not require
+        // Peeler to hold the Screen Recording permission, so no preflight gate here.
         statusBarController?.closePanel()
 
         colorSampler.pickColor { [weak self] color in
@@ -109,7 +110,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func startPaletteCapture() {
         guard !isPaletteCaptureActive, pendingPaletteCaptureTask == nil else { return }
-        guard ensureScreenPermission() else { return }
+        // `screencapture -i` is a user-mediated system tool that captures to the
+        // clipboard without requiring Peeler's own Screen Recording grant.
         statusBarController?.closePanel()
 
         isPaletteCaptureActive = true
@@ -130,38 +132,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let colors = await paletteExtractor.extractPalette(from: image, count: appState.settings.paletteColorCount)
             appState.handlePaletteCapture(image: image, colors: colors)
             showPanel()
-        }
-    }
-
-    private func ensureScreenPermission() -> Bool {
-        guard permissionService.requestIfNeeded() else {
-            presentPermissionAlert()
-            return false
-        }
-        return true
-    }
-
-    private func presentPermissionAlert() {
-        let alert = NSAlert()
-        alert.messageText = "Screen Recording Access Required"
-        alert.informativeText = """
-        Peeler needs Screen Recording permission to sample colors and \
-        capture palettes from your display.\n\n\
-        If you already granted permission but it's not working, try \
-        toggling Peeler off and back on in System Settings → Privacy \
-        & Security → Screen Recording.
-        """
-        alert.addButton(withTitle: "Open Privacy Settings")
-        alert.addButton(withTitle: "Quit Peeler")
-        alert.addButton(withTitle: "Cancel")
-
-        switch alert.runModal() {
-        case .alertFirstButtonReturn:
-            permissionService.openPrivacySettings()
-        case .alertSecondButtonReturn:
-            NSApp.terminate(nil)
-        default:
-            break
         }
     }
 
